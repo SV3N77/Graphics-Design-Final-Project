@@ -1,15 +1,15 @@
 
 var controls,renderer,scene,camera;
 
- //Create the scene 
+ //Create the scene
   scene = new THREE.Scene( );
   ratio = window.innerWidth/window.innerHeight;
-  
+
   //Create the perspective camera
   camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
   camera.position.set(100,15,100); //set camera position
   camera.lookAt(0,0,0); //set camera direction
-  
+
   renderer = new THREE.WebGLRenderer( ); //Create the WebGL renderer
   renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
   document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
@@ -17,6 +17,7 @@ var controls,renderer,scene,camera;
   //Add keyboard listener
 
   //-------------------------------------------------------------------------------------------
+<<<<<<< HEAD
  
 /*function init() {  
   let materialArray = [];
@@ -46,6 +47,9 @@ function animate() {
   requestAnimationFrame(animate);
 }
 init(); */
+=======
+
+>>>>>>> 7a5afce223ea3a582b9b1beae57af11338fc714c
 //---------------------------------------------------------------------------------------------------
   window.addEventListener('keydown', handleKeyDown, false);
 
@@ -57,8 +61,8 @@ init(); */
 
 
 //Global variables
-  
- 
+
+
 
 //Global variables
 var loader = new THREE.TextureLoader();
@@ -97,10 +101,24 @@ var arr2 = [
 ];
 var textureToShowWall = 0;
 
-//Instantiate the material we will be using
-var material_floor = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_floor = new THREE.BoxGeometry(200,0.5,200);
+var sky_geometry = new THREE.SphereGeometry(1000,64,64);
+//Instantiate a texture to use
+var sky_texture = new THREE.TextureLoader().load('img/sky.jpg');
+sky_texture.wrapS = sky_texture.wrapT = THREE.RepeatWrapping;
+sky_texture.repeat.set(4,4);
+//Instantiate the material we will be using
+var sky_material = new THREE.MeshBasicMaterial({map: sky_texture, side: THREE.BackSide});
+// Instatiate the mesh with the geometry and material
+var sky_mesh = new THREE.Mesh( sky_geometry, sky_material );
+scene.add( sky_mesh );
+
+//Instantiate the material we will be using
+var material_floor = new THREE.MeshPhongMaterial();
+
+material_floor.shininess = 10;
+//Instantiate a geometry to use
+var geometry_floor = new THREE.BoxGeometry(200,5,200);
 // Instatiate the mesh with the geometry and material
 var meshFloor = new THREE.Mesh( geometry_floor, material_floor );
 meshFloor.position.y-=10;
@@ -123,18 +141,18 @@ scene.add( meshFloor );
 //Instantiate the material we will be using
 var material_wall = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall = new THREE.BoxGeometry(0.5,30,200);
+var geometry_wall = new THREE.BoxGeometry(5,60,200);
 // Instatiate the mesh with the geometry and material
 var meshWall = new THREE.Mesh( geometry_wall, material_wall );
-meshWall.position.y+=2.25;
+meshWall.position.y+=17.5;
 meshWall.position.x-=100;
 
 var material_wall2 = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall2 = new THREE.BoxGeometry(200,30,0.5);
+var geometry_wall2 = new THREE.BoxGeometry(200,60,5);
 // Instatiate the mesh with the geometry and material
 var meshWall2 = new THREE.Mesh( geometry_wall2, material_wall2 );
-meshWall2.position.y+=2.25;
+meshWall2.position.y+=17.5;
 meshWall2.position.z-=100;
 
 // Then load the texture
@@ -153,10 +171,12 @@ scene.add( meshWall );
 scene.add( meshWall2 );
 });
   //Light for test purposes
-var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 1 );
+var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 0 );
 camera.add( cameralight );
 scene.add(camera);
-
+//ambient light
+var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.8);
+  scene.add(ambientlight);
 
 
 
@@ -200,8 +220,15 @@ function handleKeyDown(event) {
 
 
 
+<<<<<<< HEAD
+=======
+controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-var mtlLoader = new THREE.MTLLoader(); // OBJ + MTL loader here ------------------------------------
+var objLoader = new THREE.OBJLoader ();
+>>>>>>> 7a5afce223ea3a582b9b1beae57af11338fc714c
+
+var mtlLoader = new THREE.MTLLoader();
+// OBJ + MTL loader here ------------------------------------
 
 mtlLoader.load('models/chair.mtl', function(materials) {
   materials.preload();
