@@ -169,11 +169,20 @@ scene.add(object);
 objects.push(object);
 
 }
-var dragcontrol = new THREE.DragControls (objects,camera,renderer.domElement);
+dragcontrol = new THREE.DragControls (objects,camera,renderer.domElement);
+dragcontrol.addEventListener( 'dragstart', dragStartCallback);
+dragcontrol.addEventListener( 'dragend', dragEndCallback);
 
 }
 
+function dragStartCallback(event) {
+    startColor = event.object.material.color.getHex();
+    event.object.material.color.setHex(0x000000);
+}
 
+function dragEndCallback(event) {
+    event.object.material.color.setHex(startColor);
+}
 
 
 function handleKeyDown(event) {
@@ -218,7 +227,7 @@ function handleKeyDown(event) {
 //Add keyboard listener
 window.addEventListener('keydown', handleKeyDown, false);
 
-//controls = new THREE.OrbitControls( camera, renderer.domElement );
+controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 
 
@@ -253,7 +262,6 @@ function animate() {
 }
 
 
-init();
 animate();
 //final update loop
 var MyUpdateLoop = function ( )
@@ -261,7 +269,7 @@ var MyUpdateLoop = function ( )
 //call the render with the scene and the camera
 renderer.render(scene,camera);
 
-//controls.update();
+controls.update();
 
 //finally perform a recoursive call to update again
 //this must be called because the mouse change the camera position

@@ -1,20 +1,28 @@
-console.warn( "THREE.DragControls: As part of the transition to ES6 Modules, the files in 'examples/js' were deprecated in May 2020 (r117) and will be deleted in December 2020 (r124). You can find more information about developing using ES6 Modules in https://threejs.org/docs/index.html#manual/en/introduction/Import-via-modules." );
 /**
  * @author zz85 / https://github.com/zz85
  * @author mrdoob / http://mrdoob.com
  * Running this will allow you to drag three.js objects around the screen.
  */
 
-THREE.DragControls = function ( _objects, _camera, _domElement ) {
+import {
+	EventDispatcher,
+	Matrix4,
+	Plane,
+	Raycaster,
+	Vector2,
+	Vector3
+} from "../../../build/three.module.js";
 
-	var _plane = new THREE.Plane();
-	var _raycaster = new THREE.Raycaster();
+var DragControls = function ( _objects, _camera, _domElement ) {
 
-	var _mouse = new THREE.Vector2();
-	var _offset = new THREE.Vector3();
-	var _intersection = new THREE.Vector3();
-	var _worldPosition = new THREE.Vector3();
-	var _inverseMatrix = new THREE.Matrix4();
+	var _plane = new Plane();
+	var _raycaster = new Raycaster();
+
+	var _mouse = new Vector2();
+	var _offset = new Vector3();
+	var _intersection = new Vector3();
+	var _worldPosition = new Vector3();
+	var _inverseMatrix = new Matrix4();
 	var _intersections = [];
 
 	var _selected = null, _hovered = null;
@@ -261,5 +269,7 @@ THREE.DragControls = function ( _objects, _camera, _domElement ) {
 
 };
 
-THREE.DragControls.prototype = Object.create( THREE.EventDispatcher.prototype );
-THREE.DragControls.prototype.constructor = THREE.DragControls;
+DragControls.prototype = Object.create( EventDispatcher.prototype );
+DragControls.prototype.constructor = DragControls;
+
+export { DragControls };
