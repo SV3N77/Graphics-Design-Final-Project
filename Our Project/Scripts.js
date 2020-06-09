@@ -126,49 +126,6 @@ scene.add(camera);
 var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.01);
   scene.add(ambientlight);
 
-//loading objects
-
-var objLoader = new THREE.OBJMTLLoader();
-objLoader.load('models/floorplan.obj','models/floorplan.mtl', function(object){
-  object.position.x = -10;
-  object.castShadow = true;
-  object.traverse(function(node){
-    if (node.material){
-      node.material.side = THREE.DoubleSide;
-    }
-});
-  
-      
-  scene.add(object);
-}
-);
-    
-
-/*objloader.load 
-(
-  'models/chair.obj',
-  function ( object ){
-    object.scale.set(10,10,10)
-    object.position.y += 0;
-    object.position.x += 0;
-    object.position.z += 40;
-
-    scene.add(object);
-    
-  }
-);
-
-/*0bjloader.load 
-(
-  'models/house.obj',
-  function ( object ){
-    object.position.y -=10;
-    object.position.x -=10;
-
-    scene.add(object);
-  }
-);*/
-
 
 
 function handleKeyDown(event) {
@@ -217,7 +174,8 @@ controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 var objLoader = new THREE.OBJLoader ();
 
-var mtlLoader = new THREE.MTLLoader(); // OBJ + MTL loader here ------------------------------------
+var mtlLoader = new THREE.MTLLoader(); 
+// OBJ + MTL loader here ------------------------------------
 
 mtlLoader.load('models/chair.mtl', function(materials) {
   materials.preload();
