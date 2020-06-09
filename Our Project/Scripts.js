@@ -1,4 +1,4 @@
-
+//Global variables
 var controls,renderer,scene,camera;
 
  //Create the scene
@@ -14,24 +14,7 @@ var controls,renderer,scene,camera;
   renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
   document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
   //Instantiate a texture loader
-  //Add keyboard listener
-
-  //-------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------
-  window.addEventListener('keydown', handleKeyDown, false);
-
-  controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-  var loader = new THREE.OBJLoader ();
-
-  
-
-
-//Global variables
-
-
-
-//Global variables
+ 
 var loader = new THREE.TextureLoader();
 //Allow cross origin loading
 loader.crossOrigin = '';
@@ -184,7 +167,8 @@ function handleKeyDown(event) {
     });
   }
 }
-
+ //Add keyboard listener
+window.addEventListener('keydown', handleKeyDown, false);
 
 
 controls = new THREE.OrbitControls( camera, renderer.domElement );
