@@ -243,6 +243,44 @@ mtlLoader.load('models/Artichoke.mtl', function(materials) {
     scene.add(object);
   });
 });*/
+mtlLoader.load('models/flower.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/flower.obj', function(object) {
+    object.position.y -= 8;
+    object.position.x += 80;
+    object.position.z += -90;
+    object.scale.set(0.2, 0.2, 0.2)
+    scene.add(object);
+  });
+});
+
+mtlLoader.load('models/flower.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/flower.obj', function(object) {
+    object.position.y -= 8;
+    object.position.x += 40;
+    object.position.z += -90;
+    object.scale.set(0.2, 0.2, 0.2)
+    scene.add(object);
+  });
+});
+
+mtlLoader.load('models/flower.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/flower.obj', function(object) {
+    object.position.y -= 8;
+    object.position.x += -90;
+    object.position.z += 90;
+    object.scale.set(0.2, 0.2, 0.2)
+    scene.add(object);
+  });
+});
 
 mtlLoader.load('models/Artichoke.mtl', function(materials) {
   materials.preload();
