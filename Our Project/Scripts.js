@@ -94,10 +94,11 @@ var textureToShowWall = 0;
 //Instantiate the material we will be using
 var material_floor = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_floor = new THREE.BoxGeometry(100,0.5,100);
+var geometry_floor = new THREE.BoxGeometry(200,0.5,200);
 // Instatiate the mesh with the geometry and material
 var meshFloor = new THREE.Mesh( geometry_floor, material_floor );
 meshFloor.position.y-=10;
+
 
 // Then load the texture
 loader.load(arr[textureToShowFloor], function(texFloor) {
@@ -116,19 +117,19 @@ scene.add( meshFloor );
 //Instantiate the material we will be using
 var material_wall = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall = new THREE.BoxGeometry(0.5,25,100);
+var geometry_wall = new THREE.BoxGeometry(0.5,30,200);
 // Instatiate the mesh with the geometry and material
 var meshWall = new THREE.Mesh( geometry_wall, material_wall );
 meshWall.position.y+=2.25;
-meshWall.position.x-=15.25;
+meshWall.position.x-=100;
 
 var material_wall2 = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall2 = new THREE.BoxGeometry(100,25,0.5);
+var geometry_wall2 = new THREE.BoxGeometry(200,30,0.5);
 // Instatiate the mesh with the geometry and material
 var meshWall2 = new THREE.Mesh( geometry_wall2, material_wall2 );
 meshWall2.position.y+=2.25;
-meshWall2.position.z-=15.25;
+meshWall2.position.z-=100;
 
 // Then load the texture
 loader.load(arr2[textureToShowWall], function(texWall) {
@@ -197,7 +198,7 @@ window.addEventListener('keydown', handleKeyDown, false);
 
 controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-var loader = new THREE.OBJLoader ();
+/*var loader = new THREE.OBJLoader ();
 
 loader.load 
 (
@@ -212,7 +213,7 @@ loader.load
   }
 );
 
-loader.load 
+/*loader.load 
 (
   'models/house.obj',
   function ( object ){
@@ -221,7 +222,7 @@ loader.load
 
     scene.add(object);
   }
-);
+);*/
 
 //final update loop
 var MyUpdateLoop = function ( )
