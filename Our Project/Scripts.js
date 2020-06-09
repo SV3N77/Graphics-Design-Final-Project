@@ -1,46 +1,4 @@
-/*let scene, camera, renderer;
-function init() {
-  scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,45,30000);
-  camera.position.set(-900,-200,-900);
-  renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth,window.innerHeight);
-  document.body.appendChild(renderer.domElement);
-  let controls = new THREE.OrbitControls(camera);
-  controls.addEventListener('change', renderer);
-  controls.minDistance = 500;
-  controls.maxDistance = 1500;
 
-  let materialArray = [];
-  let texture_ft = new THREE.TextureLoader().load( 'bg/ft.jpg');
-  let texture_bk = new THREE.TextureLoader().load( 'bg/bk.jpg');
-  let texture_up = new THREE.TextureLoader().load( 'bg/up.jpg');
-  let texture_dn = new THREE.TextureLoader().load( 'bg/dn.jpg');
-  let texture_rt = new THREE.TextureLoader().load( 'bg/rt.jpg');
-  let texture_lf = new THREE.TextureLoader().load( 'bg/lf.jpg');
-
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
-
-  for (let i = 0; i < 6; i++)
-     materialArray[i].side = THREE.BackSide;
-  let skyboxGeo = new THREE.BoxGeometry( 10000, 10000, 10000);
-  let skybox = new THREE.Mesh( skyboxGeo, materialArray );
-  scene.add( skybox );
-  animate();
-}
-
-function animate() {
-  renderer.render(scene,camera);
-  requestAnimationFrame(animate);
-}
-init();*/
-
-//Global variables
 var controls,renderer,scene,camera;
 
  //Create the scene 
@@ -56,6 +14,17 @@ var controls,renderer,scene,camera;
   renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
   document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
   //Instantiate a texture loader
+
+  //-------------------------------------------------------------------------------------------
+  
+//---------------------------------------------------------------------------------------------------
+
+
+//Global variables
+  
+ 
+
+//Global variables
 var loader = new THREE.TextureLoader();
 //Allow cross origin loading
 loader.crossOrigin = '';
@@ -245,6 +214,52 @@ function handleKeyDown(event) {
 window.addEventListener('keydown', handleKeyDown, false);
 
 controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+var objLoader = new THREE.OBJLoader ();
+
+var mtlLoader = new THREE.MTLLoader(); // OBJ + MTL loader here ------------------------------------
+
+mtlLoader.load('models/chair.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair.obj', function(object) {
+    object.position.y += -5;
+    object.position.x += 0;
+    object.position.z += 40;
+    object.scale.set(10,10,10)
+    scene.add(object);
+  });
+});
+
+
+
+mtlLoader.load('models/3d-model.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/3d-model.obj', function(object) {
+    object.position.y -=10;
+    object.position.x -=10;
+    object.scale.set(0.01,0.01,0.01)
+    scene.add(object);
+  });
+});
+
+mtlLoader.load('models/Artichoke.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/Artichoke.obj', function(object) {
+    object.position.y += -5;
+    object.position.x += 100;
+    object.position.z += -50;
+    object.scale.set(0.1, 0.1, 0.1)
+    scene.add(object);
+  });
+});
+
+
 
 //final update loop
 var MyUpdateLoop = function ( )
