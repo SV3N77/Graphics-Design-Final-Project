@@ -177,7 +177,7 @@ var objLoader = new THREE.OBJLoader ();
 
 var mtlLoader = new THREE.MTLLoader();
 // OBJ + MTL loader here ------------------------------------
-
+//white chair
 mtlLoader.load('models/chair.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
@@ -201,6 +201,20 @@ var objLoader = new THREE.OBJLoader();
     scene.add(object);
   }); */
 
+//antiue chair
+mtlLoader.load('models/Artichoke.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/Artichoke.obj', function(object) {
+    object.position.y -= 8;
+    object.position.x += 50;
+    object.position.z += 0;
+    object.rotation.set(0,85,0);
+    object.scale.set(0.2, 0.2, 0.2)
+    scene.add(object);
+  });
+});
 
 mtlLoader.load('models/Artichoke.mtl', function(materials) {
   materials.preload();
@@ -208,12 +222,13 @@ mtlLoader.load('models/Artichoke.mtl', function(materials) {
   objLoader.setMaterials(materials);
   objLoader.load('models/Artichoke.obj', function(object) {
     object.position.y -= 8;
-    object.position.x += -90;
+    object.position.x += -60;
     object.position.z += -90;
-    object.scale.set(0.1, 0.1, 0.1)
+    object.scale.set(0.2, 0.2, 0.2)
     scene.add(object);
   });
 });
+
 
 /*mtlLoader.load('models/Sofa_Obj.mtl', function(materials) {
   materials.preload();
@@ -227,6 +242,8 @@ mtlLoader.load('models/Artichoke.mtl', function(materials) {
     scene.add(object);
   });
 });*/
+
+//flower pots
 mtlLoader.load('models/flower.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
@@ -265,20 +282,7 @@ mtlLoader.load('models/flower.mtl', function(materials) {
     scene.add(object);
   });
 });
-
-mtlLoader.load('models/Artichoke.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new THREE.OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/Artichoke.obj', function(object) {
-    object.position.y -= 8;
-    object.position.x += -60;
-    object.position.z += -90;
-    object.scale.set(0.1, 0.1, 0.1)
-    scene.add(object);
-  });
-});
-
+//glass table
 mtlLoader.load('models/desk.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
