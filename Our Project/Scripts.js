@@ -39,6 +39,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 init();*/
+
 //Global variables
 var controls,renderer,scene,camera;
 
@@ -92,9 +93,11 @@ var arr2 = [
 var textureToShowWall = 0;
 
 //Instantiate the material we will be using
-var material_floor = new THREE.MeshBasicMaterial();
+var material_floor = new THREE.MeshPhongMaterial();
+
+material_floor.shininess = 10;
 //Instantiate a geometry to use
-var geometry_floor = new THREE.BoxGeometry(200,0.5,200);
+var geometry_floor = new THREE.BoxGeometry(200,5,200);
 // Instatiate the mesh with the geometry and material
 var meshFloor = new THREE.Mesh( geometry_floor, material_floor );
 meshFloor.position.y-=10;
@@ -117,18 +120,18 @@ scene.add( meshFloor );
 //Instantiate the material we will be using
 var material_wall = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall = new THREE.BoxGeometry(0.5,30,200);
+var geometry_wall = new THREE.BoxGeometry(5,60,200);
 // Instatiate the mesh with the geometry and material
 var meshWall = new THREE.Mesh( geometry_wall, material_wall );
-meshWall.position.y+=2.25;
+meshWall.position.y+=17.5;
 meshWall.position.x-=100;
 
 var material_wall2 = new THREE.MeshBasicMaterial();
 //Instantiate a geometry to use
-var geometry_wall2 = new THREE.BoxGeometry(200,30,0.5);
+var geometry_wall2 = new THREE.BoxGeometry(200,60,5);
 // Instatiate the mesh with the geometry and material
 var meshWall2 = new THREE.Mesh( geometry_wall2, material_wall2 );
-meshWall2.position.y+=2.25;
+meshWall2.position.y+=17.5;
 meshWall2.position.z-=100;
 
 // Then load the texture
@@ -147,10 +150,55 @@ scene.add( meshWall );
 scene.add( meshWall2 );
 });
   //Light for test purposes
-var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 1 );
+var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 0 );
 camera.add( cameralight );
 scene.add(camera);
+//ambient light
+var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.01);
+  scene.add(ambientlight);
 
+//loading objects
+
+var objLoader = new THREE.OBJMTLLoader();
+objLoader.load('models/floorplan.obj','models/floorplan.mtl', function(object){
+  object.position.x = -10;
+  object.castShadow = true;
+  object.traverse(function(node){
+    if (node.material){
+      node.material.side = THREE.DoubleSide;
+    }
+});
+  
+      
+  scene.add(object);
+}
+);
+    
+
+/*objloader.load 
+(
+  'models/chair.obj',
+  function ( object ){
+    object.scale.set(10,10,10)
+    object.position.y += 0;
+    object.position.x += 0;
+    object.position.z += 40;
+
+    scene.add(object);
+    
+  }
+);
+
+/*0bjloader.load 
+(
+  'models/house.obj',
+  function ( object ){
+    object.position.y -=10;
+    object.position.x -=10;
+
+    scene.add(object);
+  }
+);*/
 
 
 
@@ -197,32 +245,6 @@ function handleKeyDown(event) {
 window.addEventListener('keydown', handleKeyDown, false);
 
 controls = new THREE.OrbitControls( camera, renderer.domElement );
-
-/*var loader = new THREE.OBJLoader ();
-
-loader.load 
-(
-  'models/chair.obj',
-  function ( object ){
-    object.scale.set(10,10,10)
-    object.position.y += -5;
-    object.position.x += 0;
-    object.position.z += 40;
-    scene.add(object);
-    
-  }
-);
-
-/*loader.load 
-(
-  'models/house.obj',
-  function ( object ){
-    object.position.y -=10;
-    object.position.x -=10;
-
-    scene.add(object);
-  }
-);*/
 
 //final update loop
 var MyUpdateLoop = function ( )
