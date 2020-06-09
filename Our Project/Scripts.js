@@ -17,39 +17,6 @@ var controls,renderer,scene,camera;
   //Add keyboard listener
 
   //-------------------------------------------------------------------------------------------
-<<<<<<< HEAD
- 
-/*function init() {  
-  let materialArray = [];
-  let texture_ft = new THREE.TextureLoader().load( 'bg/ft.jpg');
-  let texture_bk = new THREE.TextureLoader().load( 'bg/bk.jpg');
-  let texture_up = new THREE.TextureLoader().load( 'bg/up.jpg');
-  let texture_dn = new THREE.TextureLoader().load( 'bg/dn.jpg');
-  let texture_rt = new THREE.TextureLoader().load( 'bg/rt.jpg');
-  let texture_lf = new THREE.TextureLoader().load( 'bg/lf.jpg');
-
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
-  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
-  for (let i = 0; i < 6; i++)
-            materialArray[i].side = THREE.BackSide;
-          let skyboxGeo = new THREE.BoxGeometry( 10000, 10000, 10000);
-          let skybox = new THREE.Mesh( skyboxGeo, materialArray );
-          scene.add( skybox );  
-          animate();
-}
-      
-function animate() {
-  renderer.render(scene,camera);
-  requestAnimationFrame(animate);
-}
-init(); */
-=======
-
->>>>>>> 7a5afce223ea3a582b9b1beae57af11338fc714c
 //---------------------------------------------------------------------------------------------------
   window.addEventListener('keydown', handleKeyDown, false);
 
@@ -220,12 +187,9 @@ function handleKeyDown(event) {
 
 
 
-<<<<<<< HEAD
-=======
 controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 var objLoader = new THREE.OBJLoader ();
->>>>>>> 7a5afce223ea3a582b9b1beae57af11338fc714c
 
 var mtlLoader = new THREE.MTLLoader();
 // OBJ + MTL loader here ------------------------------------
@@ -235,9 +199,9 @@ mtlLoader.load('models/chair.mtl', function(materials) {
   var objLoader = new THREE.OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/chair.obj', function(object) {
-    object.position.y += -5;
-    object.position.x += 0;
-    object.position.z += 40;
+    object.position.y += -2;
+    object.position.x += 50;
+    object.position.z += -50;
     object.scale.set(10,10,10)
     scene.add(object);
   });
@@ -259,22 +223,35 @@ mtlLoader.load('models/Artichoke.mtl', function(materials) {
   var objLoader = new THREE.OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/Artichoke.obj', function(object) {
-    object.position.y += -5;
-    object.position.x += -40;
-    object.position.z += -30;
+    object.position.y -= 8;
+    object.position.x += -90;
+    object.position.z += -90;
     object.scale.set(0.1, 0.1, 0.1)
     scene.add(object);
   });
 });
+
+/*mtlLoader.load('models/Sofa_Obj.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new THREE.OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/Sofa Obj.obj', function(object) {
+    object.position.y -= 8;
+    object.position.x += 10;
+    object.position.z += -60;
+    object.scale.set(0.1, 0.1, 0.1)
+    scene.add(object);
+  });
+});*/
 
 mtlLoader.load('models/Artichoke.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/Artichoke.obj', function(object) {
-    object.position.y += -5;
-    object.position.x += -25;
-    object.position.z += -30;
+    object.position.y -= 8;
+    object.position.x += -60;
+    object.position.z += -90;
     object.scale.set(0.1, 0.1, 0.1)
     scene.add(object);
   });
@@ -285,14 +262,14 @@ mtlLoader.load('models/desk.mtl', function(materials) {
   var objLoader = new THREE.OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/desk.obj', function(object) {
-    object.position.y += -5;
+    object.position.y -= 8;
     object.position.x += 50;
     object.position.z += -30;
     object.scale.set(10, 10, 10);
     scene.add(object);
   });
 });
-
+/*
 mtlLoader.load('models/painting_face.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
@@ -304,7 +281,7 @@ mtlLoader.load('models/painting_face.mtl', function(materials) {
     object.scale.set(0.01, 0.01, 0.01)
     scene.add(object);
   });
-});
+});*/
 
 //final update loop
 var MyUpdateLoop = function ( )
