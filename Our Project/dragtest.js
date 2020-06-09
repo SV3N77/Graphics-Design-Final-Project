@@ -1,24 +1,59 @@
-var control,renderer,scene,camera, orbit;
+/*let scene, camera, renderer;
+function init() {
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,45,30000);
+  camera.position.set(-900,-200,-900);
+  renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth,window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+  let controls = new THREE.OrbitControls(camera);
+  controls.addEventListener('change', renderer);
+  controls.minDistance = 500;
+  controls.maxDistance = 1500;
+
+  let materialArray = [];
+  let texture_ft = new THREE.TextureLoader().load( 'bg/ft.jpg');
+  let texture_bk = new THREE.TextureLoader().load( 'bg/bk.jpg');
+  let texture_up = new THREE.TextureLoader().load( 'bg/up.jpg');
+  let texture_dn = new THREE.TextureLoader().load( 'bg/dn.jpg');
+  let texture_rt = new THREE.TextureLoader().load( 'bg/rt.jpg');
+  let texture_lf = new THREE.TextureLoader().load( 'bg/lf.jpg');
+
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_up }));
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_dn }));
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_rt }));
+  materialArray.push(new THREE.MeshBasicMaterial( { map: texture_lf }));
+
+  for (let i = 0; i < 6; i++)
+     materialArray[i].side = THREE.BackSide;
+  let skyboxGeo = new THREE.BoxGeometry( 10000, 10000, 10000);
+  let skybox = new THREE.Mesh( skyboxGeo, materialArray );
+  scene.add( skybox );
+  animate();
+}
+
+function animate() {
+  renderer.render(scene,camera);
+  requestAnimationFrame(animate);
+}
+init();*/
+//Global variables
+var controls,dragcontrol,renderer,scene,camera;
 
  //Create the scene 
   scene = new THREE.Scene( );
   ratio = window.innerWidth/window.innerHeight;
-
   
-  
-                
-//Create the perspective camera
-camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
-camera.position.set(100,15,100); //set camera position
-camera.lookAt(0,0,0); //set camera direction
+  //Create the perspective camera
+  camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
+  camera.position.set(100,15,100); //set camera position
+  camera.lookAt(0,0,0); //set camera direction
   
   renderer = new THREE.WebGLRenderer( ); //Create the WebGL renderer
   renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
   document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
-  
-  //add controls
-  orbit = new THREE.OrbitControls( camera, renderer.domElement );
-
   //Instantiate a texture loader
 var loader = new THREE.TextureLoader();
 //Allow cross origin loading
@@ -63,8 +98,6 @@ var geometry_floor = new THREE.BoxGeometry(200,0.5,200);
 // Instatiate the mesh with the geometry and material
 var meshFloor = new THREE.Mesh( geometry_floor, material_floor );
 meshFloor.position.y-=10;
-
-
 
 
 // Then load the texture
@@ -118,67 +151,28 @@ var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 1 );
 camera.add( cameralight );
 scene.add(camera);
 
+var objects = [];
 
-				orbit.update();
-				orbit.addEventListener( 'change', renderer );
+function init() {
+var geometry = new THREE.BoxGeometry (10,10,10);
+for (var i = 0; i <10; i++) {
+var object = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( {color: Math.random() * 0xffffff}));
 
-				control = new TransformControls( camera, renderer.domElement );
-				control.addEventListener( 'change', renderer );
+object.position.x = Math.random() * 100-50;
+object.position.y = Math.random() * 60-30;
+object.position.z = Math.random() * 80-40;
 
-				control.addEventListener( 'dragging-changed', function ( event ) {
+object.castShadow=true;
+object.receiveShadow=true;
 
-					orbit.enabled = ! event.value;
+scene.add(object);
+objects.push(object);
 
-                } ); 
-                
-                scene.add( control );
+}
+var dragcontrol = new THREE.DragControls (objects,camera,renderer.domElement);
 
-window.addEventListener( 'keydown', function ( event ) {
+}
 
-    switch ( event.keyCode ) {
-
-
-case 32: // Space key to transform (activate x and z transforms)
-control.showX = control.showX;
-control.showZ = control.showZ;
-control.setMode( "translate" );
-break;
-
-case 82: // R to rotate object (activate Y rotation)
-control.showX = ! control.showX;
-control.showY = control.showY;
-control.showZ = ! control.showZ;
-control.setMode( "rotate" );
-break;
-    }
-// case 67: // C
-// const position = currentCamera.position.clone();
-// currentCamera = currentCamera.isPerspectiveCamera ? cameraOrtho : cameraPersp;
-// currentCamera.position.copy( position );
-// orbit.object = currentCamera;
-// control.camera = currentCamera;
-// currentCamera.lookAt( orbit.target.x, orbit.target.y, orbit.target.z );
-// onWindowResize();
-// break;
-// } 
-
-
-
-// } );
-
-// window.addEventListener( 'keyup', function ( event ) {
-
-//     switch ( event.keyCode ) {
-
-//         case 16: // Shift
-//             control.setTranslationSnap( null );
-//             control.setRotationSnap( null );
-//             control.setScaleSnap( null );
-//             break;
-
-//     }
-
- }  );
 
 
 
@@ -226,6 +220,8 @@ window.addEventListener('keydown', handleKeyDown, false);
 
 //controls = new THREE.OrbitControls( camera, renderer.domElement );
 
+
+
 /*var loader = new THREE.OBJLoader ();
 
 loader.load 
@@ -251,14 +247,21 @@ loader.load
     scene.add(object);
   }
 );*/
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
 
+
+init();
+animate();
 //final update loop
 var MyUpdateLoop = function ( )
 {
 //call the render with the scene and the camera
 renderer.render(scene,camera);
 
-//control.update();
+//controls.update();
 
 //finally perform a recoursive call to update again
 //this must be called because the mouse change the camera position
