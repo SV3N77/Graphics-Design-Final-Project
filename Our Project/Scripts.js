@@ -199,7 +199,12 @@ loader.load
 (
   'models/chair.obj',
   function ( object ){
+    object.scale.set(10,10,10)
+    object.position.y += -5;
+    object.position.x += 0;
+    object.position.z += 40;
     scene.add(object);
+    
   }
 );
 
@@ -211,6 +216,7 @@ loader.load
   function ( object ){
     object.position.y -=10;
     object.position.x -=10;
+
     scene.add(object);
   }
 );
