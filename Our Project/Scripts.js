@@ -295,6 +295,7 @@ mtlLoader.load('models/desk.mtl', function(materials) {
     scene.add(object);
   });
 });
+
 /*
 mtlLoader.load('models/painting_face.mtl', function(materials) {
   materials.preload();
