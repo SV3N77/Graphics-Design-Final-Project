@@ -33,14 +33,14 @@ function init() {
   scene.add( skybox );  
   animate();
 }
+
 function animate() {
   renderer.render(scene,camera);
   requestAnimationFrame(animate);
 }
 init();
     
-    
-    //Create the scene
+//Create the scene
     var scene = new THREE.Scene( );
     var ratio = window.innerWidth/window.innerHeight;
 
