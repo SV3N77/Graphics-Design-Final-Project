@@ -1,28 +1,28 @@
 
 var controls,renderer,scene,camera;
 
- //Create the scene 
+ //Create the scene
   scene = new THREE.Scene( );
   ratio = window.innerWidth/window.innerHeight;
-  
+
   //Create the perspective camera
   camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
   camera.position.set(100,15,100); //set camera position
   camera.lookAt(0,0,0); //set camera direction
-  
+
   renderer = new THREE.WebGLRenderer( ); //Create the WebGL renderer
   renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
   document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
   //Instantiate a texture loader
 
   //-------------------------------------------------------------------------------------------
-  
+
 //---------------------------------------------------------------------------------------------------
 
 
 //Global variables
-  
- 
+
+
 
 //Global variables
 var loader = new THREE.TextureLoader();
@@ -60,6 +60,18 @@ var arr2 = [
   'img/redbg.png'
 ];
 var textureToShowWall = 0;
+
+//Instantiate a geometry to use
+var sky_geometry = new THREE.SphereGeometry(1000,64,64);
+//Instantiate a texture to use
+var sky_texture = new THREE.TextureLoader().load('img/sky.jpg');
+sky_texture.wrapS = sky_texture.wrapT = THREE.RepeatWrapping;
+sky_texture.repeat.set(4,4);
+//Instantiate the material we will be using
+var sky_material = new THREE.MeshBasicMaterial({map: sky_texture, side: THREE.BackSide});
+// Instatiate the mesh with the geometry and material
+var sky_mesh = new THREE.Mesh( sky_geometry, sky_material );
+scene.add( sky_mesh );
 
 //Instantiate the material we will be using
 var material_floor = new THREE.MeshPhongMaterial();
@@ -174,7 +186,7 @@ controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 var objLoader = new THREE.OBJLoader ();
 
-var mtlLoader = new THREE.MTLLoader(); 
+var mtlLoader = new THREE.MTLLoader();
 // OBJ + MTL loader here ------------------------------------
 
 mtlLoader.load('models/chair.mtl', function(materials) {
