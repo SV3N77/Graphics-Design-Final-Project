@@ -221,6 +221,20 @@ loader.load
   }
 );
 
+var loader = new THREE.OBJLoader ();
+
+loader.load 
+(
+  'models/redChair.obj',
+  function ( object ){
+    object.position.y += -5;
+    object.position.x += 0;
+    object.position.z += 60;
+
+    scene.add(object);
+  }
+);
+
 //final update loop
 var MyUpdateLoop = function ( )
 {
