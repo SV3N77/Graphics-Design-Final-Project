@@ -123,7 +123,7 @@ var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 0 );
 camera.add( cameralight );
 scene.add(camera);
 //ambient light
-var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.01);
+var ambientlight = new THREE.AmbientLight(new THREE.Color(1,1,1),0.8);
   scene.add(ambientlight);
 
 
