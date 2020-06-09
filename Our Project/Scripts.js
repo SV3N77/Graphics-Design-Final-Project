@@ -1,4 +1,4 @@
-let scene, camera, renderer;
+/*let scene, camera, renderer;
 function init() {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,45,30000);
@@ -38,8 +38,8 @@ function animate() {
   renderer.render(scene,camera);
   requestAnimationFrame(animate);
 }
-init();
-    
+init();*/
+ 
 //Create the scene
     var scene = new THREE.Scene( );
     var ratio = window.innerWidth/window.innerHeight;
@@ -178,6 +178,8 @@ init();
         });
       }
     }
+
+    
 
     //Add keyboard listener
     window.addEventListener('keydown', handleKeyDown, false);
