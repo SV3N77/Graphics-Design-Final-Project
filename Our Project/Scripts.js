@@ -230,18 +230,19 @@ mtlLoader.load('models/Artichoke.mtl', function(materials) {
 });
 
 
-/*mtlLoader.load('models/Sofa_Obj.mtl', function(materials) {
+mtlLoader.load('models/couch.mtl', function(materials) {
   materials.preload();
   var objLoader = new THREE.OBJLoader();
   objLoader.setMaterials(materials);
-  objLoader.load('models/Sofa Obj.obj', function(object) {
+  objLoader.load('models/couch.obj', function(object) {
     object.position.y -= 8;
     object.position.x += 10;
-    object.position.z += -60;
-    object.scale.set(0.1, 0.1, 0.1)
+    object.position.z += -30;
+    object.rotation.set(0,90,0);
+    object.scale.set(15,15, 15)
     scene.add(object);
   });
-});*/
+});
 
 //flower pots
 mtlLoader.load('models/flower.mtl', function(materials) {
