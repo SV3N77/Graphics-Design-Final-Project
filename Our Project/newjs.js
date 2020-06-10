@@ -339,6 +339,56 @@ mtlLoader.load('models/table.mtl', function(materials) {
   });
 });
 
+mtlLoader.load('models/sofa.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/sofa.obj', function(object) {
+    object.position.y += -6;
+    object.position.x += -90;
+    object.position.z += -50;
+    object.scale.set(10, 10, 10)
+    scene.add(object);
+    objects.push(object)
+  });
+});
+
+mtlLoader.load('models/tv_stand.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/tv_stand.obj', function(object) {
+    object.position.y += -15;
+    object.position.x += -110;
+    object.position.z += 80;
+    object.scale.set(0.5, 0.5, 0.5)
+    scene.add(object);
+    objects.push(object)
+  });
+});
+
+mtlLoader.load('models/door_2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/door_2.obj', function(object) {
+    object.position.y += -8;
+    object.position.x += 70;
+    object.position.z += -100;
+    object.scale.set(25, 25, 25)
+
+    var texture = new THREE.TextureLoader().load('models/door_2_texture/Door_C.jpg', 'models/door_2_texture/Reflexion.jpg');
+
+    object.traverse(function (child) {   // aka setTexture
+        if (child instanceof THREE.Mesh) {
+            child.material.map = texture;
+        }
+    });
+    scene.add(object);
+    objects.push(object)
+  });
+});
+
 }
 //final update loop
 var MyUpdateLoop = function ( )
