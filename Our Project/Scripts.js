@@ -173,8 +173,6 @@ window.addEventListener('keydown', handleKeyDown, false);
 
 controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-var objLoader = new THREE.OBJLoader ();
-
 var mtlLoader = new THREE.MTLLoader();
 // OBJ + MTL loader here ------------------------------------
 //white chair
