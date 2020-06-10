@@ -120,7 +120,7 @@ textureToShowWall++;
 scene.add( meshWall );
 scene.add( meshWall2 );
 });
-  //Light for test purposes
+  //Camera Light 
 var cameralight = new THREE.PointLight( new THREE.Color(1,1,1), 0 );
 camera.add( cameralight );
 scene.add(camera);
