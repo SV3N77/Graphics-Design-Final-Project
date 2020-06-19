@@ -91,6 +91,8 @@ document.addEventListener("mousedown", () => {
       shift.subVectors(intersects[0].object.position, intersects[0].point);
       isDragging = true;
       dragObject = intersects[0].object;
+      
+      transformCtrls.enabled = true;
       transformCtrls.attach(intersects[0].object);
       scene.add(transformCtrls);
       transformCtrls.setMode('rotate');
@@ -101,8 +103,8 @@ document.addEventListener("mousedown", () => {
 document.addEventListener("mouseup", () => {
 	isDragging = false;
   dragObject = null;
-  controls.enabled = false;
-  transformCtrls.enabled = true;
+  // controls.enabled = false;
+  // transformCtrls.enabled = true;
 } );
 
 document.body.addEventListener('keydown', keyPressed);
@@ -112,6 +114,10 @@ function keyPressed(e){
     case 'q': //Q to enable orbit controls
         controls.enabled = true;
         transformCtrls.enabled = false;
+        break;
+        case 'w': //W to enable orbit controls
+        controls.enabled = false;
+        transformCtrls.enabled = true;
         break;
         
   }
