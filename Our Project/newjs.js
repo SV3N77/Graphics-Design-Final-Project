@@ -2,11 +2,12 @@
 import * as THREE from './libraries/three.module.js'
 import { DragControls } from './libraries/DragControls.js';
 import { OrbitControls } from './libraries/OrbitControls.js';
+import { TransformControls } from './libraries/TransformControls.js';
 import { OBJLoader } from './libraries/OBJLoader.js';
 import { MTLLoader } from './libraries/MTLLoader.js';
 
 
-var controls,dragcontrol,renderer,scene,camera;
+var control,orbit,renderer,scene,camera;
 
 //Create the scene
 var scene = new THREE.Scene();
@@ -20,13 +21,39 @@ camera.lookAt(0, 0, 0); //set camera direction
 var renderer = new THREE.WebGLRenderer(); //Create the WebGL renderer
 renderer.setSize(window.innerWidth, window.innerHeight); //Set the size of the rendering window
 document.body.appendChild(renderer.domElement); //Add the renderer to the current document
-controls = new OrbitControls(camera, renderer.domElement);
-controls.enabled= false;
-//objects for testing movement controls
+
+// //create orbit controls
+// controls = new OrbitControls(camera, renderer.domElement);
+// controls.enabled= false;
+
+//array for storing objects to move
 var objects = [];
-//DRAG CONTROLS
-dragcontrol = new DragControls (objects,camera,renderer.domElement); 
-dragcontrol.enabled=false;
+
+// //DRAG CONTROLS
+// dragcontrol = new DragControls (objects,camera,renderer.domElement); 
+// dragcontrol.enabled=false;
+
+// //TRANSFORMCONTROLS
+// transform = new TransformControls (objects, camera, renderer.domElement);
+// transform.enabled = false;
+
+orbit = new OrbitControls( camera, renderer.domElement );
+				orbit.update();
+				orbit.addEventListener( 'change', renderer );
+
+				control = new TransformControls( objects, camera, renderer.domElement );
+				control.addEventListener( 'change', renderer );
+
+				control.addEventListener( 'dragging-changed', function ( event ) {
+
+					orbit.enabled = ! event.value;
+
+				} );
+				
+
+				//control.attach( objects);
+				scene.add( control );
+
 //Instantiate a texture loader
 var loader = new THREE.TextureLoader();
 //Allow cross origin loading
@@ -197,18 +224,30 @@ function handleKeyDown(event) {
         textureToShowWall = 0;
       }
     });
-}
+
     if (event.keyCode === 81) //81 == When 'Q' is pressed
     {
-        controls.enabled = false;
-        dragcontrol.enabled = true;
+      control.setMode( "translate" );
+        // controls.enabled = false;
+        // transform.enabled = false;
+        // dragcontrol.enabled = true;
 }
 if (event.keyCode === 87) //87 == When 'W' is pressed
 {
-    controls.enabled = true;
-    dragcontrol.enabled = false;
+  control.setMode( "rotate" );
+    // controls.enabled = true;
+    // transform.enabled = false;
+    // dragcontrol.enabled = false;
 }
   }
+  if (event.keyCode === 69) //69 == When 'E' is pressed
+{
+    controls.enabled = false;
+    transform.enabled = true;
+    dragcontrol.enabled = false;
+}
+}
+  
 
 
 //Add keyboard listener
@@ -336,56 +375,6 @@ mtlLoader.load('models/table.mtl', function(materials) {
     desk.scale.set(6, 8, 6);
     scene.add(desk);
     objects.push(desk)
-  });
-});
-
-mtlLoader.load('models/sofa.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/sofa.obj', function(object) {
-    object.position.y += -6;
-    object.position.x += -90;
-    object.position.z += -50;
-    object.scale.set(10, 10, 10)
-    scene.add(object);
-    objects.push(object)
-  });
-});
-
-mtlLoader.load('models/tv_stand.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/tv_stand.obj', function(object) {
-    object.position.y += -15;
-    object.position.x += -110;
-    object.position.z += 80;
-    object.scale.set(0.5, 0.5, 0.5)
-    scene.add(object);
-    objects.push(object)
-  });
-});
-
-mtlLoader.load('models/door_2.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/door_2.obj', function(object) {
-    object.position.y += -8;
-    object.position.x += 70;
-    object.position.z += -100;
-    object.scale.set(25, 25, 25)
-
-    var texture = new THREE.TextureLoader().load('models/door_2_texture/Door_C.jpg', 'models/door_2_texture/Reflexion.jpg');
-
-    object.traverse(function (child) {   // aka setTexture
-        if (child instanceof THREE.Mesh) {
-            child.material.map = texture;
-        }
-    });
-    scene.add(object);
-    objects.push(object)
   });
 });
 
