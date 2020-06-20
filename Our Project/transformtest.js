@@ -18,7 +18,7 @@ var pIntersect = new THREE.Vector3(); // point of intersection with an object (p
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
 var isDragging = false;
 var dragObject;
-var pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+var pointLight;
 
 init();
 
@@ -29,12 +29,12 @@ scene = new THREE.Scene();
 scene.background = new THREE.CubeTextureLoader()
 
 	.load( [
-		'./bg/noon/px.jpg',
-		'./bg/noon/nx.jpg',
-		'./bg/noon/py.jpg',
-		'./bg/noon/ny.jpg',
-		'./bg/noon/pz.jpg',
-		'./bg/noon/nz.jpg'
+		'./bg/night/px.jpg',
+		'./bg/night/nx.jpg',
+		'./bg/night/py.jpg',
+		'./bg/night/ny.jpg',
+		'./bg/night/pz.jpg',
+		'./bg/night/nz.jpg'
   ] );
   
 camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
@@ -49,8 +49,8 @@ transformCtrls = new TransformControls(camera, renderer.domElement);
 transformCtrls.showX = ! transformCtrls.showX;
 transformCtrls.showZ = ! transformCtrls.showZ;
 
-/*var light = new THREE.AmbientLight( 0xffffff ); // soft white light
-scene.add( light ); // add enviroment light -- Christian */
+var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+scene.add( light ); // add enviroment light -- Christian 
 
 
 
@@ -74,6 +74,7 @@ object.position.y = randomY;
 object.position.z = randomZ;
 
  // Random light with object --Christian
+pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
 pointLight.position.set( randomX, randomY, randomZ ); 
 scene.add( pointLight );
 
@@ -133,18 +134,18 @@ function addFurnitures() {
   
   });
 
-  mtlLoader.load('models/house2.mtl', function(materials) {
+  mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.load('models/house2.obj', function(object) {
+    objLoader.load('models/house_empty.obj', function(object) {
       
-      object.position.x = 0;
+      object.position.x = 32;
       object.position.y = -0.5;
-      object.position.z = 0;
-      object.scale.set(0.1,0.1,0.1)
+      object.position.z = -7;
+      object.scale.set(0.5,0.5,0.5)
       scene.add(object);
-      furniture.push(object);
+
 
     });
   
@@ -156,9 +157,9 @@ function addFurnitures() {
     objLoader.setMaterials(materials);
     objLoader.load('models/cybertruck.obj', function(object) {
       
-      object.position.x = 0;
+      object.position.x = 13;
       object.position.y = -0.1;
-      object.position.z = 5;
+      object.position.z = 0;
       object.scale.set(1,1,1)
       scene.add(object);
       furniture.push(object);
@@ -166,6 +167,55 @@ function addFurnitures() {
     });
   
   });
+
+
+
+
+  var textureloader = new THREE.TextureLoader();
+  textureloader.load('models/grass_texture/grass.jpg',function(tx){
+  mtlLoader.load('models/grass.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/grass.obj', function(object) {
+      
+      object.position.x = 11.5;
+      object.position.y = -0.5;
+      object.position.z = 2.8;
+
+      object.rotation.x = 1.55
+      object.rotation.y = 3.15
+      object.scale.set(0.02,0.02,0.02)
+      scene.add(object);
+   
+
+    });
+  
+  });
+});
+  
+/*var textureloader = new THREE.TextureLoader();
+  textureloader.load('models/lamp_street_texture/lamp_street_old.png',function(tx){
+  mtlLoader.load('models/lamp_street.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/lamp_street.obj', function(object) {
+      
+      object.position.x = 11.5;
+      object.position.y = 5;
+      object.position.z = 2.8;
+
+      object.rotation.x = 1.55
+      object.rotation.y = 3.15
+      object.scale.set(10,10,10)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+  
+  });
+});*/
 
 
 
@@ -179,7 +229,7 @@ addFurnitures();
 
 document.addEventListener("mousedown", () => {
   
-  var intersects = raycaster.intersectObjects(furniture);
+  var intersects = raycaster.intersectObjects(furniture, true);
   if (intersects.length > 0) {
     controls.enabled = false;
     pIntersect.copy(intersects[0].point);
