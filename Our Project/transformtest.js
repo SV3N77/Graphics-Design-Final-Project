@@ -24,18 +24,6 @@ init();
 
 function init() {
 scene = new THREE.Scene();
-
-scene.background = new THREE.CubeTextureLoader()
-
-	.load( [
-		'./bg/noon/px.jpg',
-		'./bg/noon/nx.jpg',
-		'./bg/noon/py.jpg',
-		'./bg/noon/ny.jpg',
-		'./bg/noon/pz.jpg',
-		'./bg/noon/nz.jpg'
-  ] );
-  
 camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
 camera.position.set(3, 5, 8);
 camera.lookAt(scene.position);
@@ -47,9 +35,6 @@ controls = new OrbitControls(camera, renderer.domElement);
 transformCtrls = new TransformControls(camera, renderer.domElement);
 transformCtrls.showX = ! transformCtrls.showX;
 transformCtrls.showZ = ! transformCtrls.showZ;
-
-var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-scene.add( light ); // add enviroment light -- Christian
 
 //setting up the test scene
 scene.add(new THREE.GridHelper(10, 10));//wire grid
@@ -69,46 +54,7 @@ scene.add(object);//add cubes to scene
 furniture.push(object);//add cubes to furniture array
 
 }
-
 }
-var loadingManager = null;
-loadingManager = new THREE.LoadingManager();
-
-var mtlLoader = new MTLLoader();
-// OBJ + MTL loader here ------------------------------------
-//white chair
-mtlLoader.load('models/chair.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/chair.obj', function(object) {
-    object.castShadow=true;
-    object.receiveShadow=true;
-
-    object.position.x = Math.random() * 8-4;
-    object.position.y = Math.random() * 0-0;
-    object.position.z = Math.random() * 8-4;
-    object.scale.set(1,1,1)
-    scene.add(object);
-    furniture.push(object);
-  });
-});
-
-mtlLoader.load('models/Artichoke.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/Artichoke.obj', function(object) {
-    object.position.x = Math.random() * 8-4;
-    object.position.y = Math.random() * 0-0;
-    object.position.z = Math.random() * 8-4;
-    object.scale.set(0.01,0.01,0.01)
-    
-    scene.add(object);
-    furniture.push(object);
-  });
-});
-
 
 // events
 /* renderer.domElement.addEventListener("click", onclick, true);
@@ -218,12 +164,4 @@ renderer.render(scene,camera);
 
 //link the resize of the window to the update of the camera
 window.addEventListener( 'resize', MyResize);
-
-
-// OBJ + MTL loader here ------------------------------------
-//white chair
-
-
-
-
 
