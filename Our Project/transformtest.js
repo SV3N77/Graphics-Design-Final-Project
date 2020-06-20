@@ -22,6 +22,7 @@ var dragObject;
 
 init();
 
+
 function init() {
 scene = new THREE.Scene();
 
@@ -48,8 +49,12 @@ transformCtrls = new TransformControls(camera, renderer.domElement);
 transformCtrls.showX = ! transformCtrls.showX;
 transformCtrls.showZ = ! transformCtrls.showZ;
 
-var light = new THREE.AmbientLight( 0x404040 ); // soft white light
-scene.add( light ); // add enviroment light -- Christian
+/*var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+scene.add( light ); // add enviroment light -- Christian */
+
+var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
+light.position.set( 0, 5, 10 ); 
+scene.add( light );
 
 //setting up the test scene
 scene.add(new THREE.GridHelper(10, 10));//wire grid
@@ -74,41 +79,114 @@ furniture.push(object);//add cubes to furniture array
 var loadingManager = null;
 loadingManager = new THREE.LoadingManager();
 
-var mtlLoader = new MTLLoader();
+
+
 // OBJ + MTL loader here ------------------------------------
 //white chair
-mtlLoader.load('models/chair.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/chair.obj', function(object) {
-    object.castShadow=true;
-    object.receiveShadow=true;
+function addFurnitures() {
 
-    object.position.x = Math.random() * 8-4;
-    object.position.y = Math.random() * 0-0;
-    object.position.z = Math.random() * 8-4;
-    object.scale.set(1,1,1)
-    scene.add(object);
-    furniture.push(object);
+  var mtlLoader = new MTLLoader();
+  mtlLoader.load('models/chair.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/chair.obj', function(object) {
+      object.castShadow=true;
+      object.receiveShadow=true;
+  
+      object.position.x = Math.random() * 8-4;
+      object.position.y = Math.random() * 0-0;
+      object.position.z = Math.random() * 8-4;
+      object.scale.set(1,1,1)
+      scene.add(object);
+      furniture.push(object);
+  
+
+    });
   });
-});
 
-mtlLoader.load('models/Artichoke.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/Artichoke.obj', function(object) {
-    object.position.x = Math.random() * 8-4;
-    object.position.y = Math.random() * 0-0;
-    object.position.z = Math.random() * 8-4;
-    object.scale.set(0.01,0.01,0.01)
+  mtlLoader.load('models/Artichoke.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/Artichoke.obj', function(object) {
+      
+      object.position.x = Math.random() * 8-4;
+      object.position.y = Math.random() * 0-0;
+      object.position.z = Math.random() * 8-4;
+      object.scale.set(0.01,0.01,0.01)
+      scene.add(object);
+      furniture.push(object);
+
+    });
     
-    scene.add(object);
-    furniture.push(object);
+  
   });
-});
 
+  mtlLoader.load('models/house2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/house2.obj', function(object) {
+      
+      object.position.x = 0;
+      object.position.y = -0.5;
+      object.position.z = 0;
+      object.scale.set(0.1,0.1,0.1)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+  
+  });
+
+  mtlLoader.load('models/cybertruck.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/cybertruck.obj', function(object) {
+      
+      object.position.x = 0;
+      object.position.y = -0.1;
+      object.position.z = 5;
+      object.scale.set(1,1,1)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+  
+  });
+
+
+
+
+
+
+}
+
+addFurnitures();
+
+
+document.addEventListener("mousedown", () => {
+  
+  var intersects = raycaster.intersectObjects(furniture);
+  if (intersects.length > 0) {
+    controls.enabled = false;
+    pIntersect.copy(intersects[0].point);
+    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
+    shift.subVectors(intersects[0].object.position, intersects[0].point);
+    isDragging = true;
+    dragObject = intersects[0].object;
+    
+    transformCtrls.enabled = true;
+    transformCtrls.attach(intersects[0].object);
+    scene.add(transformCtrls);
+    transformCtrls.setMode('rotate');
+  }
+  
+} );
+
+//alert(furniture)
 
 // events
 /* renderer.domElement.addEventListener("click", onclick, true);
@@ -136,23 +214,7 @@ document.addEventListener("mousemove", event => {
     }
 });
 
-document.addEventListener("mousedown", () => {
-		var intersects = raycaster.intersectObjects(furniture);
-    if (intersects.length > 0) {
-    	controls.enabled = false;
-    	pIntersect.copy(intersects[0].point);
-      plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
-      shift.subVectors(intersects[0].object.position, intersects[0].point);
-      isDragging = true;
-      dragObject = intersects[0].object;
-      
-      transformCtrls.enabled = true;
-      transformCtrls.attach(intersects[0].object);
-      scene.add(transformCtrls);
-      transformCtrls.setMode('rotate');
-    }
-    
-} );
+
 
 document.addEventListener("mouseup", () => {
 	isDragging = false;
@@ -222,7 +284,6 @@ window.addEventListener( 'resize', MyResize);
 
 // OBJ + MTL loader here ------------------------------------
 //white chair
-
 
 
 
