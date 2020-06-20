@@ -18,7 +18,7 @@ var pIntersect = new THREE.Vector3(); // point of intersection with an object (p
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
 var isDragging = false;
 var dragObject;
-
+var pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
 
 init();
 
@@ -52,20 +52,30 @@ transformCtrls.showZ = ! transformCtrls.showZ;
 /*var light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian */
 
-var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
-light.position.set( 0, 5, 10 ); 
-scene.add( light );
+
+
+/*var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
+light.position.set( 0, 5, 100 ); 
+scene.add( light );*/
 
 //setting up the test scene
 scene.add(new THREE.GridHelper(10, 10));//wire grid
 //random coloured cubes
 var geometry = new THREE.BoxGeometry (1,1,1);
-for (var i = 0; i <10; i++) {
+for (var i = 0; i <1; i++) {
 var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff}));
 
-object.position.x = Math.random() * 8-4;
-object.position.y = Math.random() * 0-0;
-object.position.z = Math.random() * 8-4;
+var randomX = Math.random() * 8-4; 
+var randomY = Math.random() * 0-0;
+var randomZ = Math.random() * 8-4;
+
+object.position.x = randomX;
+object.position.y = randomY;
+object.position.z = randomZ;
+
+ // Random light with object --Christian
+pointLight.position.set( randomX, randomY, randomZ ); 
+scene.add( pointLight );
 
 object.castShadow=true;
 object.receiveShadow=true;
@@ -210,6 +220,9 @@ document.addEventListener("mousemove", event => {
     if (isDragging) {
     	raycaster.ray.intersectPlane(plane, planeIntersect);
       dragObject.position.addVectors(planeIntersect, shift);
+      pointLight.position.x = dragObject.position.x;
+      pointLight.position.y = dragObject.position.z;
+      pointLight.position.z = dragObject.position.z;
     
     }
 });
