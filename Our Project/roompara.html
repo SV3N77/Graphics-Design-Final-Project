@@ -26,35 +26,6 @@
         var meshWall;
         var meshWall2;
 
-        //The floor textures to use
-        var arr = [
-            'img/floor1.jpg',
-            'img/wood4.jpg',
-            'img/wood5.jpg',
-            'img/wood6.png',
-            'img/wood7.jpg',
-            'img/wood8.png',
-            'img/greybrick.jpg',
-            'img/brick1.jpg',
-            'img/brick2.jpg'
-        ];
-
-        //The wall textures to use
-        var arr2 = [
-            'img/wall1.jpg',
-            'img/floor1.jpg',
-            'img/wood1.jpg',
-            'img/wood2.jpg',
-            'img/wood3.jpg',
-            'img/wood4.jpg',
-            'img/wood5.jpg',
-            'img/wood6.png',
-            'img/wood8.png',
-            'img/greybrick.jpg',
-            'img/brick1.jpg',
-            'img/brick2.jpg',
-            'img/redbg.png'
-        ];
         var floor1Material, wood4Material, wood5Material, wood6Material, wood7Material, wood8Material, greybrickMaterial, brick1Material, brick2Material; // initialise floor materials
         var wall1Material, wood1Material, wood2Material, wood3Material, redBgMaterial; // initialise wall materials
 
@@ -196,7 +167,7 @@
         function render() {
             
             if ( effectController.newFloor !== floorTexture ||
-                 effectController.newFloor !== wallTexture ) {
+                 effectController.newWall !== wallTexture ) {
                     
                     floorTexture = effectController.newFloor;
                     wallTexture = effectController.newWall;
