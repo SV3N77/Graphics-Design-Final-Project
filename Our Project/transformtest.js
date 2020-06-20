@@ -165,3 +165,24 @@ renderer.render(scene,camera);
 //link the resize of the window to the update of the camera
 window.addEventListener( 'resize', MyResize);
 
+var OBJFile = 'door_2.obj';
+var MTLFile = 'door_2.mtl';
+var JPGFile = 'door_2_texture/Door_C.jpg';
+
+new THREE.MTLLoader()
+.load(MTLFile, function (materials) {
+    materials.preload();
+    new THREE.OBJLoader()
+        .setMaterials(materials)
+        .load(OBJFile, function (object) {
+            object.position.y = - 95;
+            var texture = new THREE.TextureLoader().load(JPGFile);
+
+            object.traverse(function (child) {   // aka setTexture
+                if (child instanceof THREE.Mesh) {
+                    child.material.map = texture;
+                }
+            });
+            scene.add(object);
+        });
+});

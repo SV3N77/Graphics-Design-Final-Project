@@ -103,7 +103,7 @@ var geometry_wall2 = new THREE.BoxGeometry(200,60,5);
 // Instatiate the mesh with the geometry and material
 var meshWall2 = new THREE.Mesh( geometry_wall2, material_wall2 );
 meshWall2.position.y+=17.5;
-meshWall2.position.z-=100;
+//meshWall2.position.z-=100;
 
 // Then load the texture
 loader.load(arr2[textureToShowWall], function(texWall) {
