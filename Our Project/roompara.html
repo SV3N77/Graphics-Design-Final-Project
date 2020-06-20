@@ -1,0 +1,292 @@
+<html>
+  <head>
+    <title>Room</title>
+  </head>
+
+  <style>
+  body {margin: 0;}
+  canvas {width: 100%; height: 100%;}
+  </style>
+
+  <body>
+   <script src="js/three.js"> </script>
+   <script src="js/OrbitControls.js"> </script>
+   <script src="js/dat.gui.min.js"> </script>
+
+    <script>
+    
+        var camera, scene, renderer;
+        var controls;
+        var effectController;
+        
+        var floorTexture;
+        var wallTexture;
+
+        var meshFloor;
+        var meshWall;
+        var meshWall2;
+
+        //The floor textures to use
+        var arr = [
+            'img/floor1.jpg',
+            'img/wood4.jpg',
+            'img/wood5.jpg',
+            'img/wood6.png',
+            'img/wood7.jpg',
+            'img/wood8.png',
+            'img/greybrick.jpg',
+            'img/brick1.jpg',
+            'img/brick2.jpg'
+        ];
+
+        //The wall textures to use
+        var arr2 = [
+            'img/wall1.jpg',
+            'img/floor1.jpg',
+            'img/wood1.jpg',
+            'img/wood2.jpg',
+            'img/wood3.jpg',
+            'img/wood4.jpg',
+            'img/wood5.jpg',
+            'img/wood6.png',
+            'img/wood8.png',
+            'img/greybrick.jpg',
+            'img/brick1.jpg',
+            'img/brick2.jpg',
+            'img/redbg.png'
+        ];
+        var floor1Material, wood4Material, wood5Material, wood6Material, wood7Material, wood8Material, greybrickMaterial, brick1Material, brick2Material; // initialise floor materials
+        var wall1Material, wood1Material, wood2Material, wood3Material, redBgMaterial; // initialise wall materials
+
+        init();
+        render();
+
+        function init() {
+
+            // CAMERA
+            var ratio = window.innerWidth/window.innerHeight;
+            camera = new THREE.PerspectiveCamera(45,ratio,0.1,1000);
+            camera.position.set(30,15,30); //set camera position
+	        camera.lookAt(0,0,0); //set camera direction
+            
+            // RENDERER
+            renderer = new THREE.WebGLRenderer( ); //Create the WebGL renderer
+            renderer.setSize(window.innerWidth,window.innerHeight); //Set the size of the rendering window
+            document.body.appendChild(renderer.domElement ); //Add the renderer to the current document
+
+            // EVENTS
+            window.addEventListener( 'resize', MyResize);
+
+            // CONTROLS
+            controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+            // TEXTURE LOADER
+            var loader = new THREE.TextureLoader();
+            loader.crossOrigin = ''; //Allow cross origin loading
+
+            // TEXTURE MAPS
+            var floor1Map = loader.load( 'img/floor1.jpg' );
+            floor1Map.wrapS = floor1Map.wrapT = THREE.RepeatWrapping;
+            floor1Map.repeat = new THREE.Vector2(2,2);
+
+            var wood4Map = loader.load( 'img/wood4.jpg' );
+            wood4Map.wrapS = wood4Map.wrapT = THREE.RepeatWrapping;
+            wood4Map.repeat = new THREE.Vector2(2,2);
+
+            var wood5Map = loader.load( 'img/wood5.jpg' );
+            wood5Map.wrapS = wood5Map.wrapT = THREE.RepeatWrapping;
+            wood5Map.repeat = new THREE.Vector2(2,2);
+
+            var wood6Map = loader.load( 'img/wood6.png' );
+            wood6Map.wrapS = wood6Map.wrapT = THREE.RepeatWrapping;
+            wood6Map.repeat = new THREE.Vector2(2,2);
+
+            var wood7Map = loader.load( 'img/wood7.jpg' );
+            wood7Map.wrapS = wood7Map.wrapT = THREE.RepeatWrapping;
+            wood7Map.repeat = new THREE.Vector2(2,2);
+
+            var greybrickMap = loader.load( 'img/greybrick.jpg' );
+            greybrickMap.wrapS = greybrickMap.wrapT = THREE.RepeatWrapping;
+            greybrickMap.repeat = new THREE.Vector2(2,2);
+
+            var brick1Map = loader.load( 'img/brick1.jpg' );
+            brick1Map.wrapS = brick1Map.wrapT = THREE.RepeatWrapping;
+            brick1Map.repeat = new THREE.Vector2(2,2);
+
+            var brick2Map = loader.load( 'img/brick2.jpg' );
+            brick2Map.wrapS = brick2Map.wrapT = THREE.RepeatWrapping;
+            brick2Map.repeat = new THREE.Vector2(2,2);
+
+            var wall1Map = loader.load( 'img/wall1.jpg' );
+            wall1Map.wrapS = wall1Map.wrapT = THREE.RepeatWrapping;
+            wall1Map.repeat = new THREE.Vector2(2,2);
+
+            var wood1Map = loader.load( 'img/wood1.jpg' );
+            wood1Map.wrapS = wood1Map.wrapT = THREE.RepeatWrapping;
+            wood1Map.repeat = new THREE.Vector2(2,2);
+
+            var wood2Map = loader.load( 'img/wood2.jpg' );
+            wood2Map.wrapS = wood2Map.wrapT = THREE.RepeatWrapping;
+            wood2Map.repeat = new THREE.Vector2(2,2);
+
+            var wood3Map = loader.load( 'img/wood3.jpg' );
+            wood3Map.wrapS = wood3Map.wrapT = THREE.RepeatWrapping;
+            wood3Map.repeat = new THREE.Vector2(2,2);
+
+            var redBgMap = loader.load( 'img/redbg.png' );
+            redBgMap.wrapS = redBgMap.wrapT = THREE.RepeatWrapping;
+            redBgMap.repeat = new THREE.Vector2(2,2);
+
+            // MATERIALS
+            floor1Material = new THREE.MeshBasicMaterial( { map: floor1Map, side: THREE.DoubleSide } );
+            wood4Material = new THREE.MeshBasicMaterial( { map: wood4Map, side: THREE.DoubleSide } );
+            wood5Material = new THREE.MeshBasicMaterial( { map: wood5Map, side: THREE.DoubleSide } );
+            wood6Material = new THREE.MeshBasicMaterial( { map: wood6Map, side: THREE.DoubleSide } );
+            wood7Material = new THREE.MeshBasicMaterial( { map: wood7Map, side: THREE.DoubleSide } );
+            wood8Material = new THREE.MeshBasicMaterial( { map: loader.load( 'img/wood8.png' ), side: THREE.DoubleSide } );
+            greybrickMaterial = new THREE.MeshBasicMaterial( { map: greybrickMap, side: THREE.DoubleSide } );
+            brick1Material = new THREE.MeshBasicMaterial( { map: brick1Map, side: THREE.DoubleSide } );
+            brick2Material = new THREE.MeshBasicMaterial( { map: brick2Map, side: THREE.DoubleSide } );
+            
+            wall1Material = new THREE.MeshBasicMaterial( { map: wall1Map, side: THREE.DoubleSide } );
+            wood1Material = new THREE.MeshBasicMaterial( { map: wood1Map, side: THREE.DoubleSide } );
+            wood2Material = new THREE.MeshBasicMaterial( { map: wood2Map, side: THREE.DoubleSide } );
+            wood3Material = new THREE.MeshBasicMaterial( { map: wood3Map, side: THREE.DoubleSide } );
+            redBgMaterial = new THREE.MeshBasicMaterial( { map: redBgMap, side: THREE.DoubleSide } );
+
+            // SCENE
+            scene = new THREE.Scene();
+
+            // GUI
+            setupGui();
+        }
+ 
+        function MyResize() {  //this function is called when the window is resized
+            
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+
+            renderer.setSize(width,height);
+
+            camera.aspect = width/height;
+            camera.updateProjectionMatrix();
+
+            render();
+        }
+        
+        function setupGui() {
+            
+            effectController = {
+                newFloor: "floor1",
+                newWall: "wall1"
+            };
+
+            var h;
+
+            var gui = new dat.GUI();
+
+            // ATTRIBUTES
+
+            h = gui.addFolder( "Textures" );
+
+            h.add ( effectController, "newFloor", [ "floor1", "wood4", "wood5", "wood6", "wood7", "wood8", "greybrick", "brick1", "brick2" ] ).name( "Floor" ).onChange( render );
+            h.add ( effectController, "newWall", [ "wall1", "floor1", "wood1", "wood2", "wood3", "wood4", "wood5", "wood6", "wood8", "greybrick", "brick1", "brick2", "redbg" ] ).name( "Wall" ).onChange( render );
+        }
+
+        function render() {
+            
+            if ( effectController.newFloor !== floorTexture ||
+                 effectController.newFloor !== wallTexture ) {
+                    
+                    floorTexture = effectController.newFloor;
+                    wallTexture = effectController.newWall;
+
+                    createNewRoom();
+                 };
+            
+            renderer.render(scene,camera);
+        }
+
+        function createNewRoom() {
+            
+            if ( meshFloor !== undefined ) {
+
+                meshFloor.geometry.dispose();
+                scene.remove ( meshFloor );
+            }
+            if ( meshWall !== undefined ) {
+                
+                meshWall.geometry.dispose();
+                scene.remove ( meshWall );
+            }
+
+            var geometry_floor = new THREE.BoxGeometry(30,0.5,30); //Instantiate a geometry to use
+            meshFloor = new THREE.Mesh( geometry_floor, 
+                                        floorTexture === "floor1" ? floor1Material : (
+                                        floorTexture === "wood4" ? wood4Material : (
+                                        floorTexture === "wood5" ? wood5Material : (
+                                        floorTexture === "wood6" ? wood6Material : (
+                                        floorTexture === "wood7" ? wood7Material : (
+                                        floorTexture === "wood8" ? wood8Material : (
+                                        floorTexture === "greybrick" ? greybrickMaterial : (
+                                        floorTexture === "brick1" ? brick1Material : brick2Material )))))))); // Instatiate the mesh with the geometry and material
+            meshFloor.position.y-=10;
+                
+            var geometry_wall = new THREE.BoxGeometry(0.5,25,30); //Instantiate a geometry to use
+            meshWall = new THREE.Mesh( geometry_wall, 
+                                        wallTexture === "floor1" ? floor1Material : (
+                                        wallTexture === "wall1" ? wall1Material : (
+                                        wallTexture === "wood1" ? wood1Material : (
+                                        wallTexture === "wood2" ? wood2Material : (
+                                        wallTexture === "wood3" ? wood3Material : (
+                                        wallTexture === "wood4" ? wood4Material : (
+                                        wallTexture === "wood5" ? wood5Material : (
+                                        wallTexture === "wood6" ? wood6Material : (
+                                        wallTexture === "wood8" ? wood8Material : (
+                                        wallTexture === "greybrick" ? greybrickMaterial : (
+                                        wallTexture === "brick1" ? brick1Material : (
+                                        wallTexture === "brick2" ? brick2Material : redBgMaterial )))))))))))); // Instatiate the mesh with the geometry and material
+            meshWall.position.y+=2.25;
+            meshWall.position.x-=15.25;
+
+            var geometry_wall2 = new THREE.BoxGeometry(30,25,0.5); //Instantiate a geometry to use
+            meshWall2 = new THREE.Mesh( geometry_wall2, 
+                                        wallTexture === "floor1" ? floor1Material : (
+                                        wallTexture === "wall1" ? wall1Material : (
+                                        wallTexture === "wood1" ? wood1Material : (
+                                        wallTexture === "wood2" ? wood2Material : (
+                                        wallTexture === "wood3" ? wood3Material : (
+                                        wallTexture === "wood4" ? wood4Material : (
+                                        wallTexture === "wood5" ? wood5Material : (
+                                        wallTexture === "wood6" ? wood6Material : (
+                                        wallTexture === "wood8" ? wood8Material : (
+                                        wallTexture === "greybrick" ? greybrickMaterial : (
+                                        wallTexture === "brick1" ? brick1Material : (
+                                        wallTexture === "brick2" ? brick2Material : redBgMaterial )))))))))))); // Instatiate the mesh with the geometry and material
+            meshWall2.position.y+=2.25;
+            meshWall2.position.z-=15.25;
+
+            scene.add(meshFloor);
+            scene.add(meshWall);
+            scene.add(meshWall2);
+        }
+
+  //final update loop
+  var MyUpdateLoop = function ( )
+  {
+    //call the render with the scene and the camera
+    renderer.render(scene,camera);
+
+    controls.update();
+
+    //finally perform a recoursive call to update again
+    //this must be called because the mouse change the camera position
+    requestAnimationFrame(MyUpdateLoop);
+
+  };
+
+  MyUpdateLoop();
+
+    </script>
+  </body>
+</html>
