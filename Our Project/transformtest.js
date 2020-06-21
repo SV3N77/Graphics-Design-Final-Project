@@ -42,7 +42,7 @@ scene.background = new THREE.CubeTextureLoader()
   ] );
   
 camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
-camera.position.set(3, 5, 8);
+camera.position.set(20, 30, 50);
 camera.lookAt(scene.position);
 renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
@@ -191,6 +191,7 @@ function addFurnitures() {
   
   });
 
+
   mtlLoader.load('models/table.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -210,8 +211,6 @@ function addFurnitures() {
     });
   
   });
-
-
 
 
   var textureloader = new THREE.TextureLoader();
@@ -283,6 +282,25 @@ mtlLoader.load('models/table1.mtl', function(materials) {
   var objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/table1.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y = -2;
+    object.position.z = -10;
+    object.scale.set(1,1,1)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/deadvasee.jpg',function(){
+mtlLoader.load('models/flower-vase.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/flower-vase.obj', function(object) {
     
     object.position.x = 20;
     object.position.y = -2;
