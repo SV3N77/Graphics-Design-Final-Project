@@ -173,12 +173,63 @@ function addFurnitures() {
       object.position.x = 100;
       object.position.y = -1;
       object.position.z = -20;
-      object.scale.set(1.5,1.5,1.5)
+      object.scale.set(1.5,2.5,1.5)
       scene.add(object);
 
 
     });
   });
+  });
+
+  mtlLoader.load('models/tv_stand.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/tv_stand.obj', function(object) {
+      
+        object.position.x = -28;
+        object.position.y = -1;
+        object.position.z = 2;
+        object.scale.set(0.1,0.1,0.12)
+      scene.add(object);
+      furniture.push(object);
+  
+    });
+  });
+
+  mtlLoader.load('models/tv.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/tv.obj', function(object) {
+      
+        object.position.x = -20;
+        object.position.y = 1;
+        object.position.z = 30;
+
+        object.rotation.y = 3.2
+        object.scale.set(0.01,0.01,0.01)
+      scene.add(object);
+      furniture.push(object);
+  
+    });
+  });
+  
+  
+  mtlLoader.load('models/bed.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/bed.obj', function(object) {
+      
+        object.position.x = -20;
+        object.position.y = -1;
+        object.position.z = 10;
+        object.scale.set(0.05,0.05,0.05)
+      scene.add(object);
+     
+  
+    });
   });
 
 
