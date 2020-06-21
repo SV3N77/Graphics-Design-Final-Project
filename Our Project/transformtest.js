@@ -73,35 +73,35 @@ directionalLight.visible = true;
  // TEXTURE MAPS
  var floor1Map = loader.load( 'img/floor1.jpg' );
  floor1Map.wrapS = floor1Map.wrapT = THREE.RepeatWrapping;
- floor1Map.repeat = new THREE.Vector2(2,2);
+ floor1Map.repeat = new THREE.Vector2(4,4);
 
  var wood4Map = loader.load( 'img/wood4.jpg' );
  wood4Map.wrapS = wood4Map.wrapT = THREE.RepeatWrapping;
- wood4Map.repeat = new THREE.Vector2(2,2);
+ wood4Map.repeat = new THREE.Vector2(4,4);
 
  var wood5Map = loader.load( 'img/wood5.jpg' );
  wood5Map.wrapS = wood5Map.wrapT = THREE.RepeatWrapping;
- wood5Map.repeat = new THREE.Vector2(2,2);
+ wood5Map.repeat = new THREE.Vector2(4,4);
 
  var wood6Map = loader.load( 'img/wood6.png' );
  wood6Map.wrapS = wood6Map.wrapT = THREE.RepeatWrapping;
- wood6Map.repeat = new THREE.Vector2(2,2);
+ wood6Map.repeat = new THREE.Vector2(4,4);
 
  var wood7Map = loader.load( 'img/wood7.jpg' );
  wood7Map.wrapS = wood7Map.wrapT = THREE.RepeatWrapping;
- wood7Map.repeat = new THREE.Vector2(2,2);
+ wood7Map.repeat = new THREE.Vector2(4,4);
 
  var greybrickMap = loader.load( 'img/greybrick.jpg' );
  greybrickMap.wrapS = greybrickMap.wrapT = THREE.RepeatWrapping;
- greybrickMap.repeat = new THREE.Vector2(2,2);
+ greybrickMap.repeat = new THREE.Vector2(4,4);
 
  var brick1Map = loader.load( 'img/brick1.jpg' );
  brick1Map.wrapS = brick1Map.wrapT = THREE.RepeatWrapping;
- brick1Map.repeat = new THREE.Vector2(2,2);
+ brick1Map.repeat = new THREE.Vector2(4,4);
 
  var brick2Map = loader.load( 'img/brick2.jpg' );
  brick2Map.wrapS = brick2Map.wrapT = THREE.RepeatWrapping;
- brick2Map.repeat = new THREE.Vector2(2,2);
+ brick2Map.repeat = new THREE.Vector2(4,4);
 
  // MATERIALS
  floor1Material = new THREE.MeshBasicMaterial( { map: floor1Map, side: THREE.DoubleSide } );
