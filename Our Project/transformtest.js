@@ -359,13 +359,15 @@ document.addEventListener("mousedown", () => {
     shift.subVectors(intersects[0].object.position, intersects[0].point);
     isDragging = true; //something is being dragged
     dragObject = intersects[0].object;//add the raycasted object to dragObject variable
+    transformCtrls.attach(dragObject);//add transformControls to the dragObject
     
-    transformCtrls.enabled = true;//rotation is enabled
-    transformCtrls.attach(dragObject);
-    scene.add(transformCtrls);
-    transformCtrls.setMode('rotate');
   } 
+  else if (intersects.length == 0) {
+    controls.enabled=true;//clicking off will enable orbit camera
+    scene.remove(transformCtrls); //clicking off the object will remove rotaion gizmo
+  }
 } );
+
 //event listener for click release 
 document.addEventListener("mouseup", () => {
 	isDragging = false;//nothing is being dragged
@@ -375,15 +377,12 @@ document.addEventListener("mouseup", () => {
 //event listener for keys
 document.body.addEventListener('keydown', keyPressed);
 function keyPressed(e){
-  //create a switch to swap between object transformation and orbit controls
   switch(e.key) {
-    case 'q': //Q to enable orbit controls
-        controls.enabled = true;
-        transformCtrls.enabled = false;
-        break;
-        case 'w': //W to enable orbit controls
-        controls.enabled = false;
-        transformCtrls.enabled = true;
+   
+        case 'r': //R to enable rotation
+        controls.enabled = false; //disable orbit
+        scene.add(transformCtrls);//add transform gizmo to scene
+        transformCtrls.setMode('rotate');//set it to only rotate
         break;
 
         case 'v':
