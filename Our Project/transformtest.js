@@ -140,10 +140,10 @@ function addFurnitures() {
     objLoader.setMaterials(materials);
     objLoader.load('models/house_empty.obj', function(object) {
       
-      object.position.x = 32;
+      object.position.x = 100;
       object.position.y = -0.5;
-      object.position.z = -7;
-      object.scale.set(0.5,0.5,0.5)
+      object.position.z = -20;
+      object.scale.set(1.5,1.5,1.5)
       scene.add(object);
 
 
@@ -151,19 +151,88 @@ function addFurnitures() {
   
   });
 
+  /*mtlLoader.load('models/house2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/house2.obj', function(object) {
+      
+      object.position.x = 5;
+      object.position.y = -0.5;
+      object.position.z = 5;
+
+      object.rotation.y = 1.55
+      object.scale.set(0.1,0.1,0.1)
+
+      var pointLight = new THREE.PointLight( 0xffffff, 1, 10 );
+      pointLight.position.set( 11.5, 2, 2.8 ); 
+      scene.add(pointLight);
+      scene.add(object);
+
+
+    });
+  
+  });*/
+
   mtlLoader.load('models/cybertruck.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/cybertruck.obj', function(object) {
       
-      object.position.x = 13;
+      object.position.x = 40;
       object.position.y = -0.1;
       object.position.z = 0;
-      object.scale.set(1,1,1)
+      object.scale.set(3,3,3)
       scene.add(object);
       furniture.push(object);
 
+    });
+  
+  });
+
+  mtlLoader.load('models/lamp_street_2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/lamp_street_2.obj', function(object) {
+      
+      var x = 35;
+      var y = -0.5;
+      var z = 15;
+      object.position.x = x;
+      object.position.y = y;
+      object.position.z = z;
+
+      //object.rotation.x = 1.55
+      object.rotation.y = -1.5;
+      object.scale.set(0.5, 0.5, 0.5)
+
+      var pointLight = new THREE.PointLight( 0xFFFF00, 1, 10 );
+      pointLight.position.set( x + 1, y + 10, z + 4 ); 
+      scene.add(pointLight);
+      scene.add(object);
+  
+
+    });
+  
+  });
+
+  mtlLoader.load('models/table.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/table.obj', function(object) {
+      
+      object.position.x = Math.random() * 8-4;
+      object.position.y = Math.random() * 0-0;
+      object.position.z = Math.random() * 8-4;
+
+      //object.rotation.x = 1.55
+      //object.rotation.y = 3.15
+      object.scale.set(1,1,1)
+      scene.add(object);
+      furniture.push(object)
     });
   
   });
@@ -180,12 +249,12 @@ function addFurnitures() {
     objLoader.load('models/grass.obj', function(object) {
       
       object.position.x = 11.5;
-      object.position.y = -0.5;
+      object.position.y = -6;
       object.position.z = 2.8;
 
       object.rotation.x = 1.55
       object.rotation.y = 3.15
-      object.scale.set(0.02,0.02,0.02)
+      object.scale.set(0.5,0.5,0.5)
       scene.add(object);
    
 
