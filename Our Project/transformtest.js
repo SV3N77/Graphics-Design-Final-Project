@@ -119,17 +119,18 @@ directionalLight.visible = true;
 //random coloured cubes
 var geometry = new THREE.BoxGeometry (1,1,1);
 for (var i = 0; i <1; i++) {
-var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: 0xffffff}));
+var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff}));
 
 var randomX = Math.random() * 8-4; 
+var randomY = Math.random() * 0-0;
 var randomZ = Math.random() * 8-4;
 
 object.position.x = randomX;
-object.position.y = 1;
+object.position.y = randomY;
 object.position.z = randomZ;
  // Random light with object --Christian
 pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
-pointLight.position.set( randomX, 1, randomZ ); 
+pointLight.position.set( randomX, randomY, randomZ ); 
 scene.add( pointLight );
 
 object.castShadow=true;
@@ -172,12 +173,63 @@ function addFurnitures() {
       object.position.x = 100;
       object.position.y = -1;
       object.position.z = -20;
-      object.scale.set(1.5,1.5,1.5)
+      object.scale.set(1.5,2.5,1.5)
       scene.add(object);
 
 
     });
   });
+  });
+
+  mtlLoader.load('models/tv_stand.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/tv_stand.obj', function(object) {
+      
+        object.position.x = -28;
+        object.position.y = -1;
+        object.position.z = 2;
+        object.scale.set(0.1,0.1,0.12)
+      scene.add(object);
+      furniture.push(object);
+  
+    });
+  });
+
+  mtlLoader.load('models/tv.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/tv.obj', function(object) {
+      
+        object.position.x = -20;
+        object.position.y = 1;
+        object.position.z = 30;
+
+        object.rotation.y = 3.2
+        object.scale.set(0.01,0.01,0.01)
+      scene.add(object);
+      furniture.push(object);
+  
+    });
+  });
+  
+  
+  mtlLoader.load('models/bed.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/bed.obj', function(object) {
+      
+        object.position.x = -20;
+        object.position.y = -1;
+        object.position.z = 10;
+        object.scale.set(0.05,0.05,0.05)
+      scene.add(object);
+     
+  
+    });
   });
 
 
