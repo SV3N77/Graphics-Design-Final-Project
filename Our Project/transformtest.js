@@ -344,10 +344,6 @@ mtlLoader.load('models/flower-vase.mtl', function(materials) {
   });
 });
 });
-
-
-
-
 }
 
 
