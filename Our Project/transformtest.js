@@ -403,7 +403,7 @@ document.addEventListener("mousedown", () => {
     plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
     shift.subVectors(intersects[0].object.position, intersects[0].point);
     isDragging = true; //something is being dragged
-    dragObject = intersects[0].object;//drag the raycasted object
+    dragObject = intersects[0].object;//add the raycasted object to dragObject variable
     
     transformCtrls.enabled = true;//rotation is enabled
     transformCtrls.attach(intersects[0].object);
@@ -414,7 +414,7 @@ document.addEventListener("mousedown", () => {
 //event listener for click release 
 document.addEventListener("mouseup", () => {
 	isDragging = false;//nothing is being dragged
-  dragObject = null;//do not drag the object
+  dragObject = null;//there is nothing in dragObject variable
 } );
 
 //event listener for keys
