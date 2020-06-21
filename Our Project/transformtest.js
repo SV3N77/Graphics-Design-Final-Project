@@ -5,8 +5,7 @@ import { TransformControls } from './libraries/TransformControls.js';
 import { OBJLoader } from './libraries/OBJLoader.js';
 import { MTLLoader } from './libraries/MTLLoader.js';
 
-
-
+//Initialise global variables
 var effectController;     
 var floorTexture;
 var meshFloor;
@@ -23,6 +22,7 @@ var shift = new THREE.Vector3(); // distance between position of an object and p
 var isDragging = false;
 var dragObject;
 var pointLight;
+var loadingManager = null;
 
 init();
 
@@ -108,59 +108,16 @@ scene.add( light ); // add enviroment light -- Christian
  // GUI
  setupGui();
 
-/*var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
-light.position.set( 0, 5, 100 ); 
-scene.add( light );*/
-
 
 }
-var loadingManager = null;
-loadingManager = new THREE.LoadingManager();
-
 
 
 // OBJ + MTL loader here ------------------------------------
-//white chair
+
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
-  mtlLoader.load('models/chair.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/chair.obj', function(object) {
-      object.castShadow=true;
-      object.receiveShadow=true;
-  
-      object.position.x = Math.random() * 8-4;
-      object.position.y = -1;
-      object.position.z = Math.random() * 8-4;
-      object.scale.set(1,1,1)
-      scene.add(object);
-      furniture.push(object);
-  
-
-    });
-  });
-
-  mtlLoader.load('models/Artichoke.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/Artichoke.obj', function(object) {
-      
-      object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
-      object.position.z = Math.random() * 8-4;
-      object.scale.set(0.01,0.01,0.01)
-      scene.add(object);
-      furniture.push(object);
-
-    });
-    
-  
-  });
-
+  loadingManager = new THREE.LoadingManager();
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -178,31 +135,6 @@ function addFurnitures() {
   
   });
 
-  
-
-
-  /*mtlLoader.load('models/house2.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/house2.obj', function(object) {
-      
-      object.position.x = 5;
-      object.position.y = -0.5;
-      object.position.z = 5;
-
-      object.rotation.y = 1.55
-      object.scale.set(0.1,0.1,0.1)
-
-      var pointLight = new THREE.PointLight( 0xffffff, 1, 10 );
-      pointLight.position.set( 11.5, 2, 2.8 ); 
-      scene.add(pointLight);
-      scene.add(object);
-
-
-    });
-  
-  });*/
 
   mtlLoader.load('models/cybertruck.mtl', function(materials) {
     materials.preload();
@@ -335,33 +267,6 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
 });
 });
   
-/*var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/lamp_street_texture/lamp_street_old.png',function(tx){
-  mtlLoader.load('models/lamp_street.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/lamp_street.obj', function(object) {
-      
-      object.position.x = 11.5;
-      object.position.y = 5;
-      object.position.z = 2.8;
-
-      object.rotation.x = 1.55
-      object.rotation.y = 3.15
-      object.scale.set(10,10,10)
-      scene.add(object);
-      furniture.push(object);
-
-    });
-  
-  });
-});*/
-
-
-
-
-
 
 }
 
@@ -490,19 +395,6 @@ function keyPressed(e){
   }
 }
 
-/* function detectCollision() {
-	var vector = new THREE.Vector3( 1, camera.position.y, 1 );
-	var ray = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize());
-	var intersects = ray.intersectObjects( collisionList );
-	// Stop movement if less than 5 units away from collidable object
-	if ( intersects.length > 0 && intersects[0].distance < 5) {
-		// Disable all movement except backwards
-		controls.moveForward = false;
-		controls.moveRight = false;
-		controls.moveLeft = false;
-	}
-
-} */
 
 var MyUpdateLoop = function ( )
 {
