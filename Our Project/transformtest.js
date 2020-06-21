@@ -10,7 +10,6 @@ var scene, camera, renderer, controls, transformCtrls;
 var furniture = [];
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-var selectedObject;
 var plane = new THREE.Plane();
 var pNormal = new THREE.Vector3(0, 1, 0); // plane's normal
 var planeIntersect = new THREE.Vector3(); // point of intersection with the plane
@@ -347,82 +346,56 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
 addFurnitures();
 
 
-document.addEventListener("mousedown", () => {
-  
-  var intersects = raycaster.intersectObjects(furniture, true);
-  if (intersects.length > 0) {
-    controls.enabled = false;
-    pIntersect.copy(intersects[0].point);
-    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
-    shift.subVectors(intersects[0].object.position, intersects[0].point);
-    isDragging = true;
-    dragObject = intersects[0].object;
-    //alert(intersects[0].position);
-    transformCtrls.enabled = true;
-    transformCtrls.attach(intersects[0].object);
-    scene.add(transformCtrls);
-    transformCtrls.setMode('rotate');
-  }
-  
-} );
-
-
-
-//alert(furniture)
-
-// events
-/* renderer.domElement.addEventListener("click", onclick, true);
-
-var raycaster = new THREE.Raycaster();
-function onclick(event) {
-alert("onclick")
-raycaster.setFromCamera(mouse, camera);
-var intersects = raycaster.intersectObjects(furniture, true); //array
-if (intersects.length > 0) {
-
-alert(selectedObject);
- } */
-
 document.addEventListener("mousemove", event => {
-
-  	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+ 
+  //read the mouse position in relation to window
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
-		
+  
+    //if an object is being dragged, move it along the plane 
     if (isDragging) {
-    	raycaster.ray.intersectPlane(plane, planeIntersect);
-      dragObject.position.addVectors(planeIntersect, shift);
-     
-      if (dragObject.name == "")
-      {
-        pointLight.position.x = dragObject.position.x;
-        pointLight.position.y = dragObject.position.z;
-        pointLight.position.z = dragObject.position.z;
-      }
-    
+      raycaster.ray.intersectPlane(plane, planeIntersect);
+      dragObject.position.addVectors(planeIntersect, shift);   
     }
 });
-
-
-
-document.addEventListener("mouseup", () => {
-	isDragging = false;
-  dragObject = null;
-  // controls.enabled = false;
-  // transformCtrls.enabled = true;
+ 
+//event listener for mouse click
+document.addEventListener("mousedown", () => {
+ //if the raycaster intersects with an element in the furniture array, then... 
+  var intersects = raycaster.intersectObjects(furniture, true);
+  if (intersects.length > 0) {
+    controls.enabled = false; //disable the camera from orbiting
+    pIntersect.copy(intersects[0].point);//set the object to the plane
+    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
+    shift.subVectors(intersects[0].object.position, intersects[0].point);
+    isDragging = true; //something is being dragged
+    dragObject = intersects[0].object;//add the raycasted object to dragObject variable
+    transformCtrls.attach(dragObject);//add transformControls to the dragObject
+    
+  } 
+  else if (intersects.length == 0) {
+    controls.enabled=true;//clicking off will enable orbit camera
+    scene.remove(transformCtrls); //clicking off the object will remove rotation gizmo
+  }
 } );
-
+ 
+//event listener for click release 
+document.addEventListener("mouseup", () => {
+  isDragging = false;//nothing is being dragged
+  dragObject = null;//there is nothing in dragObject variable
+} );
+ 
+ 
+//event listener for keys
 document.body.addEventListener('keydown', keyPressed);
 function keyPressed(e){
-
   switch(e.key) {
-    case 'q': //Q to enable orbit controls
-        controls.enabled = true;
-        transformCtrls.enabled = false;
-        break;
-        case 'w': //W to enable orbit controls
-        controls.enabled = false;
-        transformCtrls.enabled = true;
+   
+        case 'r': //R to enable rotation
+        controls.enabled = false; //disable orbit
+        scene.add(transformCtrls);//add transform gizmo to scene
+        transformCtrls.setMode('rotate');//set it to only rotate
         break;
 
         case 'c':
@@ -471,8 +444,7 @@ function keyPressed(e){
         break;
         
   }
-     
-  e.preventDefault();
+  
 }
 
 /* function detectCollision() {
