@@ -207,7 +207,7 @@ function addFurnitures() {
 
 
   var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/grass_texture/grass.jpg',function(tx){
+  textureloader.load('models/grass_texture/grass.jpg',function(){
   mtlLoader.load('models/grass.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -230,7 +230,7 @@ function addFurnitures() {
 });
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
+textureloader.load('models/bed2_texture/bed2_white.jpg',function(){
 mtlLoader.load('models/bed2.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
@@ -252,8 +252,7 @@ mtlLoader.load('models/bed2.mtl', function(materials) {
 });
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/study_chair_cm.jpg',function(tx){
-
+textureloader.load('models/study_chair_cm.jpg',function(){
 mtlLoader.load('models/chair1.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
@@ -270,7 +269,25 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
   });
 });
 });
-  
+ 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/wood.jpg',function(){
+mtlLoader.load('models/chair2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair2.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y -= 1;
+    object.position.z = 10;
+    object.scale.set(0.1,0.1,0.1)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
 
 }
 
