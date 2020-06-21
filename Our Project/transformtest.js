@@ -45,7 +45,7 @@ scene.background = new THREE.CubeTextureLoader()
   ] );
   
 camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
-camera.position.set(3, 5, 8);
+camera.position.set(20, 30, 50);
 camera.lookAt(scene.position);
 renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
@@ -149,6 +149,7 @@ furniture.push(object);//add cubes to furniture array
  alert("---------------------------------------------\n" 
  + "Mouse clicks to move and orbit \n" 
  + "R to activate rotation slider\n" 
+ + "C to clone an object. \n"
  + "Space to change the background \n"
  + "---------------------------------------------\n" );
 }
@@ -159,52 +160,15 @@ furniture.push(object);//add cubes to furniture array
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
- 
-
-  mtlLoader.load('models/table1.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/table1.obj', function(object) {
-      
-      object.position.x = Math.random() * 8-4;
-      object.position.y = -1;
-      object.position.z = Math.random() * 8-4;
-      object.scale.set(0.8,0.8,0.8)
-      scene.add(object);
-      furniture.push(object);
-
-    });
-    
-  
-  });
-
-  mtlLoader.load('models/bed2.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/bed2.obj', function(object) {
-      
-      object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
-      object.position.z = Math.random() * 8-4;
-      object.scale.set(1,1,1)
-      scene.add(object);
-      furniture.push(object);
-
-    });
-    
-  
-  });
-
+  loadingManager = new THREE.LoadingManager();
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/house_empty.obj', function(object) {
-      
+     
       object.position.x = 100;
-      object.position.y = -0.5;
+      object.position.y = -1;
       object.position.z = -20;
       object.scale.set(1.5,1.5,1.5)
       scene.add(object);
@@ -214,31 +178,6 @@ function addFurnitures() {
   
   });
 
-  
-
-
-  /*mtlLoader.load('models/house2.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/house2.obj', function(object) {
-      
-      object.position.x = 5;
-      object.position.y = -0.5;
-      object.position.z = 5;
-
-      object.rotation.y = 1.55
-      object.scale.set(0.1,0.1,0.1)
-
-      var pointLight = new THREE.PointLight( 0xffffff, 1, 10 );
-      pointLight.position.set( 11.5, 2, 2.8 ); 
-      scene.add(pointLight);
-      scene.add(object);
-
-
-    });
-  
-  });*/
 
   mtlLoader.load('models/cybertruck.mtl', function(materials) {
     materials.preload();
@@ -247,7 +186,7 @@ function addFurnitures() {
     objLoader.load('models/cybertruck.obj', function(object) {
       
       object.position.x = 40;
-      object.position.y = -0.1;
+      object.position.y = -2;
       object.position.z = 0;
       object.scale.set(3,3,3)
       scene.add(object);
@@ -264,7 +203,7 @@ function addFurnitures() {
     objLoader.load('models/lamp_street_2.obj', function(object) {
       
       var x = 35;
-      var y = -0.5;
+      var y = -3;
       var z = 15;
       object.position.x = x;
       object.position.y = y;
@@ -284,16 +223,18 @@ function addFurnitures() {
   
   });
 
+
   mtlLoader.load('models/table.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/table.obj', function(object) {
       
-      object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
-      object.position.z = Math.random() * 8-4;
-
+      object.position.x = -16;
+      object.position.y = 0.1;
+      object.position.z = -13;
+      // object.castShadow = true;
+      // object.receiveShadow = true;
       //object.rotation.x = 1.55
       //object.rotation.y = 3.15
       object.scale.set(1,1,1)
@@ -304,10 +245,8 @@ function addFurnitures() {
   });
 
 
-
-
   var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/grass_texture/grass.jpg',function(tx){
+  textureloader.load('models/grass_texture/grass.jpg',function(){
   mtlLoader.load('models/grass.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -315,7 +254,7 @@ function addFurnitures() {
     objLoader.load('models/grass.obj', function(object) {
       
       object.position.x = 11.5;
-      object.position.y = -7;
+      object.position.y = -6.5;
       object.position.z = 2.8;
 
       object.rotation.x = 1.55
@@ -325,43 +264,22 @@ function addFurnitures() {
    
 
     });
+  
   });
 });
 
-var textureloader = new THREE.TextureLoader();
-textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
-mtlLoader.load('models/bed2.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/bed2.obj', function(object) {
-    
-    object.position.x = 11.5;
-    object.position.y = -6;
-    object.position.z = 2.8;
-
-    object.rotation.x = 1.55
-    object.rotation.y = 3.15
-    object.scale.set(1,1,1)
-    scene.add(object);
- 
-
-  });
-});
-});
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/study_chair_cm.jpg',function(tx){
-
+textureloader.load('models/study_chair_cm.jpg',function(){
 mtlLoader.load('models/chair1.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/chair1.obj', function(object) {
     
-    object.position.x = 11.5;
-    object.position.y = 2;
-    object.position.z = 2.8;
+    object.position.x = 10;
+    object.position.y = 3;
+    object.position.z = -10;
     object.scale.set(7,7,7)
     scene.add(object);
     furniture.push(object);
@@ -369,31 +287,63 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
   });
 });
 });
-  
-/*var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/lamp_street_texture/lamp_street_old.png',function(tx){
-  mtlLoader.load('models/lamp_street.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/lamp_street.obj', function(object) {
-      
-      object.position.x = 11.5;
-      object.position.y = 5;
-      object.position.z = 2.8;
+ 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/wood.jpg',function(){
+mtlLoader.load('models/chair2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair2.obj', function(object) {
+    
+    object.position.x = -16;
+    object.position.y = -1;
+    object.position.z = -20;
+    object.scale.set(0.1,0.1,0.1)
+    scene.add(object);
+    furniture.push(object);
 
-      object.rotation.x = 1.55
-      object.rotation.y = 3.15
-      object.scale.set(10,10,10)
-      scene.add(object);
-      furniture.push(object);
-
-    });
-  
   });
-});*/
+});
+});
 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/wood2.jpg',function(){
+mtlLoader.load('models/table1.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/table1.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y = -2;
+    object.position.z = -10;
+    object.scale.set(1,1,1)
+    scene.add(object);
+    furniture.push(object);
 
+  });
+});
+});
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/deadvasee.jpg',function(){
+mtlLoader.load('models/flower-vase.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/flower-vase.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y = -2;
+    object.position.z = -10;
+    object.scale.set(1,1,1)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
 
 
 
@@ -440,7 +390,7 @@ function createNewRoom() {
       scene.remove ( meshFloor );
   }
 
-  var geometry_floor = new THREE.BoxGeometry(59,0.5,60); //Instantiate a geometry to use
+  var geometry_floor = new THREE.BoxGeometry(59,2,60); //Instantiate a geometry to use
   meshFloor = new THREE.Mesh( geometry_floor,  
                               floorTexture === "floor1" ? floor1Material : (
                               floorTexture === "wood4" ? wood4Material : (
@@ -450,7 +400,7 @@ function createNewRoom() {
                               floorTexture === "wood8" ? wood8Material : (
                               floorTexture === "greybrick" ? greybrickMaterial : (
                               floorTexture === "brick1" ? brick1Material : brick2Material )))))))); // Instatiate the mesh with the geometry and material
-  meshFloor.position.y-=0.7;
+  meshFloor.position.y-=1;
   meshFloor.position.x=1.1;
   meshFloor.position.z=3;
   scene.add(meshFloor);
