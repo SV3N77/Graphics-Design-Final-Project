@@ -23,9 +23,7 @@ var isDragging = false;
 var dragObject;
 var pointLight;
 var loadingManager = null;
-var isMovableLight = false;
-var isNight = true;
-var light;
+
 init();
 
 
@@ -59,7 +57,7 @@ transformCtrls.showZ = ! transformCtrls.showZ;//disable z coordinate
 var AmbientLight = new THREE.AmbientLight(0.3);
 scene.add(AmbientLight);
 
-light = new THREE.AmbientLight( 0xffffff ); // soft white light
+var light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian 
 
  // TEXTURE LOADER
@@ -112,7 +110,6 @@ scene.add( light ); // add enviroment light -- Christian
  
  // GUI
  setupGui();
-light.visible = false;
 
  //add furniture
  addFurnitures();
@@ -303,20 +300,6 @@ function setupGui() {
 }
 
 function render() {
-  var intersects = raycaster.intersectObjects(furniture, true);
-  if (intersects.length > 0) {
-    controls.enabled = false;
-    pIntersect.copy(intersects[0].point);
-    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
-    shift.subVectors(intersects[0].object.position, intersects[0].point);
-    isDragging = true;
-    dragObject = intersects[0].object;
-    //alert(intersects[0].position);
-    transformCtrls.enabled = true;
-    transformCtrls.attach(intersects[0].object);
-    scene.add(transformCtrls);
-    transformCtrls.setMode('rotate');
-  }
   
   if ( effectController.newFloor !== floorTexture ) {
           
@@ -408,7 +391,7 @@ function keyPressed(e){
         transformCtrls.setMode('rotate');//set it to only rotate
         break;
 
-        case 'c':
+        case 'v':
         var newObject = dragObject.clone();
         newObject.position.x = dragObject.position.x + 10;
         newObject.position.y = dragObject.position.y;
@@ -417,37 +400,6 @@ function keyPressed(e){
         newObject.scale.set(dragObject.scale.x, dragObject.scale.y, dragObject.scale.z);
         scene.add(newObject);
         furniture.push(newObject);
-        break;
-
-        case ' ':
-          if (isNight == true){
-          scene.background = new THREE.CubeTextureLoader()
-          .load( [
-            './bg/noon/px.jpg',
-            './bg/noon/nx.jpg',
-            './bg/noon/py.jpg',
-            './bg/noon/ny.jpg',
-            './bg/noon/pz.jpg',
-            './bg/noon/nz.jpg'
-          ] );
-
-          isNight = false;
-          light.visible = true;
-        }
-          else{
-            scene.background = new THREE.CubeTextureLoader()
-          .load( [
-            './bg/night/px.jpg',
-            './bg/night/nx.jpg',
-            './bg/night/py.jpg',
-            './bg/night/ny.jpg',
-            './bg/night/pz.jpg',
-            './bg/night/nz.jpg'
-          ] );
-          isNight = true;
-          light.visible = false;
-          }
-       
         break;
         
   }
