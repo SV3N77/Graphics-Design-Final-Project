@@ -303,7 +303,7 @@ function addFurnitures() {
     objLoader.load('models/grass.obj', function(object) {
       
       object.position.x = 11.5;
-      object.position.y = -6;
+      object.position.y = -6.5;
       object.position.z = 2.8;
 
       object.rotation.x = 1.55
@@ -386,7 +386,7 @@ function createNewRoom() {
       scene.remove ( meshFloor );
   }
 
-  var geometry_floor = new THREE.BoxGeometry(22,0.5,20); //Instantiate a geometry to use
+  var geometry_floor = new THREE.BoxGeometry(59,0.5,60); //Instantiate a geometry to use
   meshFloor = new THREE.Mesh( geometry_floor, 
                               floorTexture === "floor1" ? floor1Material : (
                               floorTexture === "wood4" ? wood4Material : (
@@ -397,6 +397,8 @@ function createNewRoom() {
                               floorTexture === "greybrick" ? greybrickMaterial : (
                               floorTexture === "brick1" ? brick1Material : brick2Material )))))))); // Instatiate the mesh with the geometry and material
   meshFloor.position.y-=0.7;
+  meshFloor.position.x=1.1;
+  meshFloor.position.z=3;
   scene.add(meshFloor);
 }
 
