@@ -60,7 +60,7 @@ light.position.set( 0, 5, 100 );
 scene.add( light );*/
 
 //setting up the test scene
-scene.add(new THREE.GridHelper(10, 10));//wire grid
+scene.add(new THREE.GridHelper(100, 100));//wire grid
 //random coloured cubes
 var geometry = new THREE.BoxGeometry (1,1,1);
 for (var i = 0; i <1; i++) {
@@ -107,7 +107,7 @@ function addFurnitures() {
     objLoader.load('models/table1.obj', function(object) {
       
       object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
+      object.position.y = -1;
       object.position.z = Math.random() * 8-4;
       object.scale.set(0.8,0.8,0.8)
       scene.add(object);
@@ -152,6 +152,9 @@ function addFurnitures() {
     });
   
   });
+
+  
+
 
   /*mtlLoader.load('models/house2.mtl', function(materials) {
     materials.preload();
@@ -285,6 +288,26 @@ mtlLoader.load('models/bed2.mtl', function(materials) {
   });
 });
 });
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/study_chair_cm.jpg',function(tx){
+
+mtlLoader.load('models/chair1.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair1.obj', function(object) {
+    
+    object.position.x = 11.5;
+    object.position.y = 2;
+    object.position.z = 2.8;
+    object.scale.set(7,7,7)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
   
 /*var textureloader = new THREE.TextureLoader();
   textureloader.load('models/lamp_street_texture/lamp_street_old.png',function(tx){
@@ -395,6 +418,17 @@ function keyPressed(e){
         case 'w': //W to enable orbit controls
         controls.enabled = false;
         transformCtrls.enabled = true;
+        break;
+
+        case 'v':
+        var newObject = dragObject.clone();
+        newObject.position.x = dragObject.position.x + 10;
+        newObject.position.y = dragObject.position.y;
+        newObject.position.z = dragObject.position.z;
+        
+        newObject.scale.set(dragObject.scale.x, dragObject.scale.y, dragObject.scale.z);
+        scene.add(newObject);
+        furniture.push(newObject);
         break;
         
   }
