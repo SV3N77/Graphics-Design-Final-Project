@@ -20,7 +20,8 @@ var isDragging = false;
 var dragObject;
 var pointLight;
 var isMovableLight = false;
-
+var isNight = true;
+var light;
 init();
 
 
@@ -50,9 +51,9 @@ transformCtrls = new TransformControls(camera, renderer.domElement);
 transformCtrls.showX = ! transformCtrls.showX;
 transformCtrls.showZ = ! transformCtrls.showZ;
 
-var light = new THREE.AmbientLight( 0xffffff ); // soft white light
+light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian 
-
+light.visible = false;
 
 
 /*var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
@@ -352,7 +353,7 @@ document.addEventListener("mousedown", () => {
     shift.subVectors(intersects[0].object.position, intersects[0].point);
     isDragging = true;
     dragObject = intersects[0].object;
-  
+    //alert(intersects[0].position);
     transformCtrls.enabled = true;
     transformCtrls.attach(intersects[0].object);
     scene.add(transformCtrls);
@@ -420,7 +421,7 @@ function keyPressed(e){
         transformCtrls.enabled = true;
         break;
 
-        case 'v':
+        case 'c':
         var newObject = dragObject.clone();
         newObject.position.x = dragObject.position.x + 10;
         newObject.position.y = dragObject.position.y;
@@ -429,6 +430,37 @@ function keyPressed(e){
         newObject.scale.set(dragObject.scale.x, dragObject.scale.y, dragObject.scale.z);
         scene.add(newObject);
         furniture.push(newObject);
+        break;
+
+        case ' ':
+          if (isNight == true){
+          scene.background = new THREE.CubeTextureLoader()
+          .load( [
+            './bg/noon/px.jpg',
+            './bg/noon/nx.jpg',
+            './bg/noon/py.jpg',
+            './bg/noon/ny.jpg',
+            './bg/noon/pz.jpg',
+            './bg/noon/nz.jpg'
+          ] );
+
+          isNight = false;
+          light.visible = true;
+        }
+          else{
+            scene.background = new THREE.CubeTextureLoader()
+          .load( [
+            './bg/night/px.jpg',
+            './bg/night/nx.jpg',
+            './bg/night/py.jpg',
+            './bg/night/ny.jpg',
+            './bg/night/pz.jpg',
+            './bg/night/nz.jpg'
+          ] );
+          isNight = true;
+          light.visible = false;
+          }
+       
         break;
         
   }
