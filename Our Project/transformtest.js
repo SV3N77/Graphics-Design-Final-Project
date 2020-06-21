@@ -54,7 +54,7 @@ transformCtrls = new TransformControls(camera, renderer.domElement);//rotation g
 transformCtrls.showX = ! transformCtrls.showX;//disable x coordinate
 transformCtrls.showZ = ! transformCtrls.showZ;//disable z coordinate
 
-var AmbientLight = new THREE.AmbientLight(0.5);
+var AmbientLight = new THREE.AmbientLight(0.3);
 scene.add(AmbientLight);
 
 var light = new THREE.AmbientLight( 0xffffff ); // soft white light
@@ -120,10 +120,7 @@ scene.add( light ); // add enviroment light -- Christian
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
-  var loadingManager = new THREE.LoadingManager();
-  var textureloader = new THREE.TextureLoader();
-  var objLoader = new OBJLoader();
-
+  loadingManager = new THREE.LoadingManager();
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -161,7 +158,7 @@ function addFurnitures() {
 
   mtlLoader.load('models/lamp_street_2.mtl', function(materials) {
     materials.preload();
-    
+    var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/lamp_street_2.obj', function(object) {
       
@@ -188,6 +185,7 @@ function addFurnitures() {
 
   mtlLoader.load('models/table.mtl', function(materials) {
     materials.preload();
+    var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/table.obj', function(object) {
       
@@ -204,9 +202,14 @@ function addFurnitures() {
   
   });
 
+
+
+
+  var textureloader = new THREE.TextureLoader();
   textureloader.load('models/grass_texture/grass.jpg',function(tx){
   mtlLoader.load('models/grass.mtl', function(materials) {
     materials.preload();
+    var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/grass.obj', function(object) {
       
@@ -225,10 +228,11 @@ function addFurnitures() {
   });
 });
 
-
+var textureloader = new THREE.TextureLoader();
 textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
 mtlLoader.load('models/bed2.mtl', function(materials) {
   materials.preload();
+  var objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/bed2.obj', function(object) {
     
@@ -246,9 +250,12 @@ mtlLoader.load('models/bed2.mtl', function(materials) {
 });
 });
 
+var textureloader = new THREE.TextureLoader();
 textureloader.load('models/study_chair_cm.jpg',function(tx){
+
 mtlLoader.load('models/chair1.mtl', function(materials) {
   materials.preload();
+  var objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/chair1.obj', function(object) {
     
