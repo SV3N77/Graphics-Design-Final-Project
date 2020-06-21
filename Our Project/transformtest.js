@@ -23,10 +23,7 @@ var isDragging = false;
 var dragObject;
 var pointLight;
 var loadingManager = null;
-var isMovableLight = false;
-var isNight = true;
-var light;
-var directionalLight;
+
 init();
 
 
@@ -51,33 +48,11 @@ renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
-controls = new OrbitControls(camera, renderer.domElement);
-transformCtrls = new TransformControls(camera, renderer.domElement);
-transformCtrls.showX = ! transformCtrls.showX;
-transformCtrls.showZ = ! transformCtrls.showZ;
-
-light = new THREE.AmbientLight( 0xffffff ); // soft white light
-scene.add( light ); // add enviroment light -- Christian 
-light.visible = false;
-
-directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
-scene.add( directionalLight );
-directionalLight.visible = true;
-
-/*var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
-light.position.set( 0, 5, 100 ); 
-scene.add( light );*/
-
-//setting up the test scene
-scene.add(new THREE.GridHelper(100, 100));//wire grid
-//random coloured cubes
-var geometry = new THREE.BoxGeometry (1,1,1);
-for (var i = 0; i <1; i++) {
-var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff}));
-
-var randomX = Math.random() * 8-4; 
-var randomY = Math.random() * 0-0;
-var randomZ = Math.random() * 8-4;
+//create controls - claudia
+controls = new OrbitControls(camera, renderer.domElement); //camera orbit 
+transformCtrls = new TransformControls(camera, renderer.domElement);//rotation gizmo
+transformCtrls.showX = ! transformCtrls.showX;//disable x coordinate
+transformCtrls.showZ = ! transformCtrls.showZ;//disable z coordinate
 
 var AmbientLight = new THREE.AmbientLight(0.3);
 scene.add(AmbientLight);
@@ -423,40 +398,6 @@ function keyPressed(e){
         newObject.scale.set(dragObject.scale.x, dragObject.scale.y, dragObject.scale.z);
         scene.add(newObject);
         furniture.push(newObject);
-        break;
-
-        case ' ':
-          if (isNight == true){
-          scene.background = new THREE.CubeTextureLoader() // switch to noon
-          .load( [
-            './bg/noon/px.jpg',
-            './bg/noon/nx.jpg',
-            './bg/noon/py.jpg',
-            './bg/noon/ny.jpg',
-            './bg/noon/pz.jpg',
-            './bg/noon/nz.jpg'
-          ] );
-
-          isNight = false;
-          light.visible = true;
-          directionalLight.visible = false;
-        }
-          else{
-            scene.background = new THREE.CubeTextureLoader() // switch to night
-          .load( [
-            './bg/night/px.jpg',
-            './bg/night/nx.jpg',
-            './bg/night/py.jpg',
-            './bg/night/ny.jpg',
-            './bg/night/pz.jpg',
-            './bg/night/nz.jpg'
-          ] );
-          isNight = true;
-          light.visible = false;
-          directionalLight.visible = true;
-          
-          }
-       
         break;
         
   }
