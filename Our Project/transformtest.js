@@ -111,7 +111,13 @@ scene.add( light ); // add enviroment light -- Christian
  // GUI
  setupGui();
 
+ //add furniture
+ addFurnitures();
 
+ alert("---------------------------------------------\n" 
+ + "Press Q to enable orbit camera. Use mouse to rotate and zoom \n" 
+ + "W or Click on object to stop orbit and move and rotate objects \n" 
+ + "---------------------------------------------\n" );
 }
 
 
@@ -208,7 +214,7 @@ function addFurnitures() {
 
 
   var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/grass_texture/grass.jpg',function(tx){
+  textureloader.load('models/grass_texture/grass.jpg',function(){
   mtlLoader.load('models/grass.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -230,31 +236,9 @@ function addFurnitures() {
   });
 });
 
-var textureloader = new THREE.TextureLoader();
-textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
-mtlLoader.load('models/bed2.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/bed2.obj', function(object) {
-    
-    object.position.x = 11.5;
-    object.position.y = -6;
-    object.position.z = 2.8;
-
-    object.rotation.x = 1.55
-    object.rotation.y = 3.15
-    object.scale.set(1,1,1)
-    scene.add(object);
- 
-
-  });
-});
-});
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/study_chair_cm.jpg',function(tx){
-
+textureloader.load('models/study_chair_cm.jpg',function(){
 mtlLoader.load('models/chair1.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
@@ -271,11 +255,29 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
   });
 });
 });
-  
+ 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/wood.jpg',function(){
+mtlLoader.load('models/chair2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair2.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y -= 1;
+    object.position.z = 10;
+    object.scale.set(0.1,0.1,0.1)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
 
 }
 
-addFurnitures();
+
 
 function setupGui() {
             
@@ -292,6 +294,7 @@ function setupGui() {
   h = gui.addFolder( "Textures" );
 
   h.add ( effectController, "newFloor", [ "floor1", "wood4", "wood5", "wood6", "wood7", "wood8", "greybrick", "brick1", "brick2" ] ).name( "Floor" ).onChange( render );
+  
 }
 
 function render() {
