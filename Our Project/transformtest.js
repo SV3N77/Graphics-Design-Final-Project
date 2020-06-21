@@ -406,7 +406,7 @@ document.addEventListener("mousedown", () => {
     dragObject = intersects[0].object;//add the raycasted object to dragObject variable
     
     transformCtrls.enabled = true;//rotation is enabled
-    transformCtrls.attach(intersects[0].object);
+    transformCtrls.attach(dragObject);
     scene.add(transformCtrls);
     transformCtrls.setMode('rotate');
   } 
