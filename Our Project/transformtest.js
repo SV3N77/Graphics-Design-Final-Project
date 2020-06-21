@@ -123,7 +123,7 @@ function addFurnitures() {
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/house_empty.obj', function(object) {
-      
+     
       object.position.x = 100;
       object.position.y = -0.5;
       object.position.z = -20;
@@ -189,7 +189,8 @@ function addFurnitures() {
       object.position.x = Math.random() * 8-4;
       object.position.y = Math.random() * 0-0;
       object.position.z = Math.random() * 8-4;
-
+      // object.castShadow = true;
+      // object.receiveShadow = true;
       //object.rotation.x = 1.55
       //object.rotation.y = 3.15
       object.scale.set(1,1,1)
@@ -399,7 +400,7 @@ function keyPressed(e){
 var MyUpdateLoop = function ( )
 {
 
-  renderer.render( scene, camera );
+  render();
 //finally perform a recoursive call to update again
 //this must be called because the mouse change the camera position
 requestAnimationFrame(MyUpdateLoop);
