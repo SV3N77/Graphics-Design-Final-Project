@@ -15,7 +15,6 @@ var scene, camera, renderer, controls, transformCtrls;
 var furniture = [];
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
-var selectedObject;
 var plane = new THREE.Plane();
 var pNormal = new THREE.Vector3(0, 1, 0); // plane's normal
 var planeIntersect = new THREE.Vector3(); // point of intersection with the plane
@@ -49,10 +48,11 @@ renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
 document.body.appendChild(renderer.domElement);
 
-controls = new OrbitControls(camera, renderer.domElement);
-transformCtrls = new TransformControls(camera, renderer.domElement);
-transformCtrls.showX = ! transformCtrls.showX;
-transformCtrls.showZ = ! transformCtrls.showZ;
+//create controls - claudia
+controls = new OrbitControls(camera, renderer.domElement); //camera orbit 
+transformCtrls = new TransformControls(camera, renderer.domElement);//rotation gizmo
+transformCtrls.showX = ! transformCtrls.showX;//disable x coordinate
+transformCtrls.showZ = ! transformCtrls.showZ;//disable z coordinate
 
 var light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian 
@@ -376,68 +376,51 @@ function createNewRoom() {
 }
 
 
-document.addEventListener("mousedown", () => {
-  
-  var intersects = raycaster.intersectObjects(furniture, true);
-  if (intersects.length > 0) {
-    controls.enabled = false;
-    pIntersect.copy(intersects[0].point);
-    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
-    shift.subVectors(intersects[0].object.position, intersects[0].point);
-    isDragging = true;
-    dragObject = intersects[0].object;
-    
-    transformCtrls.enabled = true;
-    transformCtrls.attach(intersects[0].object);
-    scene.add(transformCtrls);
-    transformCtrls.setMode('rotate');
-  }
-  
-} );
 
-//alert(furniture)
-
-// events
-/* renderer.domElement.addEventListener("click", onclick, true);
-
-var raycaster = new THREE.Raycaster();
-function onclick(event) {
-alert("onclick")
-raycaster.setFromCamera(mouse, camera);
-var intersects = raycaster.intersectObjects(furniture, true); //array
-if (intersects.length > 0) {
-
-alert(selectedObject);
- } */
-
+//MOVEMENT CONTROLS - CLAUDIA
+// event listener for mouse movement
 document.addEventListener("mousemove", event => {
 
+  //read the mouse position in relation to window
   	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
-		
+  
+    //if an object is being dragged, move it along the plane 
     if (isDragging) {
     	raycaster.ray.intersectPlane(plane, planeIntersect);
-      dragObject.position.addVectors(planeIntersect, shift);
-      pointLight.position.x = dragObject.position.x;
-      pointLight.position.y = dragObject.position.z;
-      pointLight.position.z = dragObject.position.z;
-    
+      dragObject.position.addVectors(planeIntersect, shift);   
     }
 });
 
-
-
+//event listener for mouse click
+document.addEventListener("mousedown", () => {
+ //if the raycaster intersect with an element in the furniture array, then... 
+  var intersects = raycaster.intersectObjects(furniture, true);
+  if (intersects.length > 0) {
+    controls.enabled = false; //disable the camera from orbiting
+    pIntersect.copy(intersects[0].point);//set the object to the plane
+    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
+    shift.subVectors(intersects[0].object.position, intersects[0].point);
+    isDragging = true; //something is being dragged
+    dragObject = intersects[0].object;//drag the raycasted object
+    
+    transformCtrls.enabled = true;//rotation is enabled
+    transformCtrls.attach(intersects[0].object);
+    scene.add(transformCtrls);
+    transformCtrls.setMode('rotate');
+  } 
+} );
+//event listener for click release 
 document.addEventListener("mouseup", () => {
-	isDragging = false;
-  dragObject = null;
-  // controls.enabled = false;
-  // transformCtrls.enabled = true;
+	isDragging = false;//nothing is being dragged
+  dragObject = null;//do not drag the object
 } );
 
+//event listener for keys
 document.body.addEventListener('keydown', keyPressed);
 function keyPressed(e){
-
+  //create a switch to swap between object transformation and orbit controls
   switch(e.key) {
     case 'q': //Q to enable orbit controls
         controls.enabled = true;
@@ -446,11 +429,8 @@ function keyPressed(e){
         case 'w': //W to enable orbit controls
         controls.enabled = false;
         transformCtrls.enabled = true;
-        break;
-        
+        break;      
   }
-     
-  e.preventDefault();
 }
 
 /* function detectCollision() {
