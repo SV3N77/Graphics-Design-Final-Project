@@ -136,7 +136,7 @@ function addFurnitures() {
     objLoader.load('models/house_empty.obj', function(object) {
      
       object.position.x = 100;
-      object.position.y = -0.5;
+      object.position.y = -1;
       object.position.z = -20;
       object.scale.set(1.5,1.5,1.5)
       scene.add(object);
@@ -154,7 +154,7 @@ function addFurnitures() {
     objLoader.load('models/cybertruck.obj', function(object) {
       
       object.position.x = 40;
-      object.position.y = -0.1;
+      object.position.y = -2;
       object.position.z = 0;
       object.scale.set(3,3,3)
       scene.add(object);
@@ -171,7 +171,7 @@ function addFurnitures() {
     objLoader.load('models/lamp_street_2.obj', function(object) {
       
       var x = 35;
-      var y = -0.5;
+      var y = -3;
       var z = 15;
       object.position.x = x;
       object.position.y = y;
@@ -246,9 +246,9 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
   objLoader.setMaterials(materials);
   objLoader.load('models/chair1.obj', function(object) {
     
-    object.position.x = 11.5;
-    object.position.y = 2;
-    object.position.z = 2.8;
+    object.position.x = 10;
+    object.position.y = 3;
+    object.position.z = -10;
     object.scale.set(7,7,7)
     scene.add(object);
     furniture.push(object);
@@ -276,6 +276,24 @@ mtlLoader.load('models/chair2.mtl', function(materials) {
 });
 });
 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/wood2.jpg',function(){
+mtlLoader.load('models/table1.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/table1.obj', function(object) {
+    
+    object.position.x = 20;
+    object.position.y = -2;
+    object.position.z = -10;
+    object.scale.set(1,1,1)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
+});
 }
 
 
@@ -318,7 +336,7 @@ function createNewRoom() {
       scene.remove ( meshFloor );
   }
 
-  var geometry_floor = new THREE.BoxGeometry(59,0.5,60); //Instantiate a geometry to use
+  var geometry_floor = new THREE.BoxGeometry(59,2,60); //Instantiate a geometry to use
   meshFloor = new THREE.Mesh( geometry_floor,  
                               floorTexture === "floor1" ? floor1Material : (
                               floorTexture === "wood4" ? wood4Material : (
@@ -328,7 +346,7 @@ function createNewRoom() {
                               floorTexture === "wood8" ? wood8Material : (
                               floorTexture === "greybrick" ? greybrickMaterial : (
                               floorTexture === "brick1" ? brick1Material : brick2Material )))))))); // Instatiate the mesh with the geometry and material
-  meshFloor.position.y-=0.7;
+  meshFloor.position.y-=1;
   meshFloor.position.x=1.1;
   meshFloor.position.z=3;
   scene.add(meshFloor);
