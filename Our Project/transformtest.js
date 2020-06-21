@@ -230,27 +230,6 @@ function addFurnitures() {
   });
 });
 
-var textureloader = new THREE.TextureLoader();
-textureloader.load('models/bed2_texture/bed2_white.jpg',function(){
-mtlLoader.load('models/bed2.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/bed2.obj', function(object) {
-    
-    object.position.x = 11.5;
-    object.position.y = -6;
-    object.position.z = 2.8;
-
-    object.rotation.x = 1.55
-    object.rotation.y = 3.15
-    object.scale.set(1,1,1)
-    scene.add(object);
- 
-
-  });
-});
-});
 
 var textureloader = new THREE.TextureLoader();
 textureloader.load('models/study_chair_cm.jpg',function(){
