@@ -112,33 +112,6 @@ scene.add( light ); // add enviroment light -- Christian
 light.position.set( 0, 5, 100 ); 
 scene.add( light );*/
 
-//setting up the test scene
-scene.add(new THREE.GridHelper(10, 10));//wire grid
-//random coloured cubes
-var geometry = new THREE.BoxGeometry (1,1,1);
-for (var i = 0; i <1; i++) {
-var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff}));
-
-var randomX = Math.random() * 8-4; 
-var randomY = Math.random() * 0-0;
-var randomZ = Math.random() * 8-4;
-
-object.position.x = randomX;
-object.position.y = randomY;
-object.position.z = randomZ;
-
- // Random light with object --Christian
-pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
-pointLight.position.set( randomX, randomY, randomZ ); 
-scene.add( pointLight );
-
-object.castShadow=true;
-object.receiveShadow=true;
-
-scene.add(object);//add cubes to scene
-furniture.push(object);//add cubes to furniture array
-
-}
 
 }
 var loadingManager = null;
@@ -387,7 +360,7 @@ function createNewRoom() {
   }
 
   var geometry_floor = new THREE.BoxGeometry(59,0.5,60); //Instantiate a geometry to use
-  meshFloor = new THREE.Mesh( geometry_floor, 
+  meshFloor = new THREE.Mesh( geometry_floor,  
                               floorTexture === "floor1" ? floor1Material : (
                               floorTexture === "wood4" ? wood4Material : (
                               floorTexture === "wood5" ? wood5Material : (
