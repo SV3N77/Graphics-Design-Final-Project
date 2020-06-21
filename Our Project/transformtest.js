@@ -118,8 +118,9 @@ light.visible = false;
  addFurnitures();
 
  alert("---------------------------------------------\n" 
- + "Press Q to enable orbit camera. Use mouse to rotate and zoom \n" 
- + "W or Click on object to stop orbit and move and rotate objects \n" 
+ + "Mouse clicks to move and orbit \n" 
+ + "R to activate rotation slider\n" 
+ + "Space to change the background \n"
  + "---------------------------------------------\n" );
 }
 
