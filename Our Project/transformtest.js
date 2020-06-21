@@ -223,7 +223,8 @@ function addFurnitures() {
   
   });
 
-
+  var textureloader = new THREE.TextureLoader();
+  textureloader.load('models/Wood.jpg',function(){
   mtlLoader.load('models/table.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -241,6 +242,7 @@ function addFurnitures() {
       scene.add(object);
       furniture.push(object)
     });
+  });
   
   });
 
@@ -308,7 +310,7 @@ mtlLoader.load('models/chair2.mtl', function(materials) {
 });
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/wood2.jpg',function(){
+textureloader.load('models/greytable.jpg',function(){
 mtlLoader.load('models/table1.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
