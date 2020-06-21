@@ -133,7 +133,7 @@ function addFurnitures() {
       object.receiveShadow=true;
   
       object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
+      object.position.y = -1;
       object.position.z = Math.random() * 8-4;
       object.scale.set(1,1,1)
       scene.add(object);
@@ -177,6 +177,9 @@ function addFurnitures() {
     });
   
   });
+
+  
+
 
   /*mtlLoader.load('models/house2.mtl', function(materials) {
     materials.preload();
@@ -288,6 +291,48 @@ function addFurnitures() {
     });
   
   });
+});
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
+mtlLoader.load('models/bed2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/bed2.obj', function(object) {
+    
+    object.position.x = 11.5;
+    object.position.y = -6;
+    object.position.z = 2.8;
+
+    object.rotation.x = 1.55
+    object.rotation.y = 3.15
+    object.scale.set(1,1,1)
+    scene.add(object);
+ 
+
+  });
+});
+});
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/study_chair_cm.jpg',function(tx){
+
+mtlLoader.load('models/chair1.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/chair1.obj', function(object) {
+    
+    object.position.x = 11.5;
+    object.position.y = 2;
+    object.position.z = 2.8;
+    object.scale.set(7,7,7)
+    scene.add(object);
+    furniture.push(object);
+
+  });
+});
 });
   
 /*var textureloader = new THREE.TextureLoader();
@@ -429,7 +474,19 @@ function keyPressed(e){
         case 'w': //W to enable orbit controls
         controls.enabled = false;
         transformCtrls.enabled = true;
-        break;      
+        break;
+
+        case 'v':
+        var newObject = dragObject.clone();
+        newObject.position.x = dragObject.position.x + 10;
+        newObject.position.y = dragObject.position.y;
+        newObject.position.z = dragObject.position.z;
+        
+        newObject.scale.set(dragObject.scale.x, dragObject.scale.y, dragObject.scale.z);
+        scene.add(newObject);
+        furniture.push(newObject);
+        break;
+        
   }
 }
 
