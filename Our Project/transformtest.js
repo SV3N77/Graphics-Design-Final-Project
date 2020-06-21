@@ -44,7 +44,7 @@ scene.background = new THREE.CubeTextureLoader()
   ] );
   
 camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
-camera.position.set(15, 30, 30);
+camera.position.set(3, 5, 8);
 camera.lookAt(scene.position);
 renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setSize(innerWidth, innerHeight);
@@ -118,10 +118,9 @@ light.visible = false;
  addFurnitures();
 
  alert("---------------------------------------------\n" 
- + "Mouse clicks to move and orbit. \n" 
- + "R to activate rotation slider.\n" 
- + "C to clone object.\n"
- + "Space to change the background. \n"
+ + "Mouse clicks to move and orbit \n" 
+ + "R to activate rotation slider\n" 
+ + "Space to change the background \n"
  + "---------------------------------------------\n" );
 }
 
@@ -357,19 +356,19 @@ function createNewRoom() {
 //MOVEMENT CONTROLS - CLAUDIA
 // event listener for mouse movement
 document.addEventListener("mousemove", event => {
- 
+
   //read the mouse position in relation to window
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     raycaster.setFromCamera(mouse, camera);
   
     //if an object is being dragged, move it along the plane 
     if (isDragging) {
-      raycaster.ray.intersectPlane(plane, planeIntersect);
+    	raycaster.ray.intersectPlane(plane, planeIntersect);
       dragObject.position.addVectors(planeIntersect, shift);   
     }
 });
- 
+
 //event listener for mouse click
 document.addEventListener("mousedown", () => {
  //if the raycaster intersect with an element in the furniture array, then... 
@@ -386,16 +385,15 @@ document.addEventListener("mousedown", () => {
   } 
   else if (intersects.length == 0) {
     controls.enabled=true;//clicking off will enable orbit camera
-    scene.remove(transformCtrls); //clicking off the object will remove rotation gizmo
+    scene.remove(transformCtrls); //clicking off the object will remove rotaion gizmo
   }
 } );
- 
+
 //event listener for click release 
 document.addEventListener("mouseup", () => {
-  isDragging = false;//nothing is being dragged
+	isDragging = false;//nothing is being dragged
   dragObject = null;//there is nothing in dragObject variable
 } );
-
 
 //event listener for keys
 document.body.addEventListener('keydown', keyPressed);
