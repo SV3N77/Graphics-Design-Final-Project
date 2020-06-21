@@ -54,6 +54,9 @@ transformCtrls = new TransformControls(camera, renderer.domElement);//rotation g
 transformCtrls.showX = ! transformCtrls.showX;//disable x coordinate
 transformCtrls.showZ = ! transformCtrls.showZ;//disable z coordinate
 
+var AmbientLight = new THREE.AmbientLight(0.3);
+scene.add(AmbientLight);
+
 var light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian 
 
@@ -117,6 +120,7 @@ scene.add( light ); // add enviroment light -- Christian
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
+  
   loadingManager = new THREE.LoadingManager();
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
