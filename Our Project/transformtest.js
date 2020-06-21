@@ -22,6 +22,7 @@ var pointLight;
 var isMovableLight = false;
 var isNight = true;
 var light;
+var directionalLight;
 init();
 
 
@@ -55,6 +56,9 @@ light = new THREE.AmbientLight( 0xffffff ); // soft white light
 scene.add( light ); // add enviroment light -- Christian 
 light.visible = false;
 
+directionalLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+scene.add( directionalLight );
+directionalLight.visible = true;
 
 /*var light = new THREE.PointLight( 0xffffff, 1, 100 ); 
 light.position.set( 0, 5, 100 ); 
@@ -434,7 +438,7 @@ function keyPressed(e){
 
         case ' ':
           if (isNight == true){
-          scene.background = new THREE.CubeTextureLoader()
+          scene.background = new THREE.CubeTextureLoader() // switch to noon
           .load( [
             './bg/noon/px.jpg',
             './bg/noon/nx.jpg',
@@ -446,9 +450,10 @@ function keyPressed(e){
 
           isNight = false;
           light.visible = true;
+          directionalLight.visible = false;
         }
           else{
-            scene.background = new THREE.CubeTextureLoader()
+            scene.background = new THREE.CubeTextureLoader() // switch to night
           .load( [
             './bg/night/px.jpg',
             './bg/night/nx.jpg',
@@ -459,6 +464,8 @@ function keyPressed(e){
           ] );
           isNight = true;
           light.visible = false;
+          directionalLight.visible = true;
+          
           }
        
         break;
