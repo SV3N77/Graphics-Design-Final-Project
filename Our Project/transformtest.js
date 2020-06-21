@@ -113,6 +113,11 @@ scene.add( light ); // add enviroment light -- Christian
 
  //add furniture
  addFurnitures();
+
+ alert("---------------------------------------------\n" 
+ + "Press Q to enable orbit camera. Use mouse to rotate and zoom \n" 
+ + "W or Click on object to stop orbit and move and rotate objects \n" 
+ + "---------------------------------------------\n" );
 }
 
 
@@ -288,6 +293,7 @@ function setupGui() {
   h = gui.addFolder( "Textures" );
 
   h.add ( effectController, "newFloor", [ "floor1", "wood4", "wood5", "wood6", "wood7", "wood8", "greybrick", "brick1", "brick2" ] ).name( "Floor" ).onChange( render );
+  
 }
 
 function render() {
