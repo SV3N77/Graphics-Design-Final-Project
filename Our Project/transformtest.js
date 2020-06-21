@@ -161,6 +161,9 @@ function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
   loadingManager = new THREE.LoadingManager();
+  
+  var textureloader = new THREE.TextureLoader();
+  textureloader.load('models/Wood.jpg',function(){
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -175,7 +178,7 @@ function addFurnitures() {
 
 
     });
-  
+  });
   });
 
 
