@@ -23,6 +23,7 @@ var shift = new THREE.Vector3(); // distance between position of an object and p
 var isDragging = false;
 var dragObject;
 var pointLight;
+var isMovableLight = false;
 
 init();
 
@@ -124,35 +125,36 @@ loadingManager = new THREE.LoadingManager();
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
-  mtlLoader.load('models/chair.mtl', function(materials) {
+ 
+
+  mtlLoader.load('models/table1.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
-    objLoader.load('models/chair.obj', function(object) {
-      object.castShadow=true;
-      object.receiveShadow=true;
-  
-      object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
-      object.position.z = Math.random() * 8-4;
-      object.scale.set(1,1,1)
-      scene.add(object);
-      furniture.push(object);
-  
-
-    });
-  });
-
-  mtlLoader.load('models/Artichoke.mtl', function(materials) {
-    materials.preload();
-    var objLoader = new OBJLoader();
-    objLoader.setMaterials(materials);
-    objLoader.load('models/Artichoke.obj', function(object) {
+    objLoader.load('models/table1.obj', function(object) {
       
       object.position.x = Math.random() * 8-4;
       object.position.y = Math.random() * 0-0;
       object.position.z = Math.random() * 8-4;
-      object.scale.set(0.01,0.01,0.01)
+      object.scale.set(0.8,0.8,0.8)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+    
+  
+  });
+
+  mtlLoader.load('models/bed2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/bed2.obj', function(object) {
+      
+      object.position.x = Math.random() * 8-4;
+      object.position.y = Math.random() * 0-0;
+      object.position.z = Math.random() * 8-4;
+      object.scale.set(1,1,1)
       scene.add(object);
       furniture.push(object);
 
@@ -286,8 +288,29 @@ function addFurnitures() {
    
 
     });
-  
   });
+});
+
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
+mtlLoader.load('models/bed2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/bed2.obj', function(object) {
+    
+    object.position.x = 11.5;
+    object.position.y = -6;
+    object.position.z = 2.8;
+
+    object.rotation.x = 1.55
+    object.rotation.y = 3.15
+    object.scale.set(1,1,1)
+    scene.add(object);
+ 
+
+  });
+});
 });
   
 /*var textureloader = new THREE.TextureLoader();
@@ -341,12 +364,20 @@ function setupGui() {
 
 function render() {
   
-  if ( effectController.newFloor !== floorTexture ) {
-          
-          floorTexture = effectController.newFloor;
-
-          createNewRoom();
-       };
+  var intersects = raycaster.intersectObjects(furniture, true);
+  if (intersects.length > 0) {
+    controls.enabled = false;
+    pIntersect.copy(intersects[0].point);
+    plane.setFromNormalAndCoplanarPoint(pNormal, pIntersect);
+    shift.subVectors(intersects[0].object.position, intersects[0].point);
+    isDragging = true;
+    dragObject = intersects[0].object;
+  
+    transformCtrls.enabled = true;
+    transformCtrls.attach(intersects[0].object);
+    scene.add(transformCtrls);
+    transformCtrls.setMode('rotate');
+  }
   
   renderer.render(scene,camera);
 }
@@ -389,7 +420,15 @@ document.addEventListener("mousemove", event => {
     //if an object is being dragged, move it along the plane 
     if (isDragging) {
     	raycaster.ray.intersectPlane(plane, planeIntersect);
-      dragObject.position.addVectors(planeIntersect, shift);   
+      dragObject.position.addVectors(planeIntersect, shift);
+     
+      if (dragObject.name == "")
+      {
+        pointLight.position.x = dragObject.position.x;
+        pointLight.position.y = dragObject.position.z;
+        pointLight.position.z = dragObject.position.z;
+      }
+    
     }
 });
 
