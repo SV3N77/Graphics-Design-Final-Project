@@ -327,7 +327,7 @@ mtlLoader.load('models/table1.mtl', function(materials) {
 });
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/deadvasee.jpg',function(){
+textureloader.load('models/dead_in_a_vase_by_textureific.jpg',function(){
 mtlLoader.load('models/flower-vase.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
@@ -335,8 +335,8 @@ mtlLoader.load('models/flower-vase.mtl', function(materials) {
   objLoader.load('models/flower-vase.obj', function(object) {
     
     object.position.x = 20;
-    object.position.y = -2;
-    object.position.z = -10;
+    object.position.y = 1;
+    object.position.z = 10;
     object.scale.set(1,1,1)
     scene.add(object);
     furniture.push(object);
