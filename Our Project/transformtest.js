@@ -115,9 +115,9 @@ scene.add( light ); // add enviroment light -- Christian
  addFurnitures();
 
  alert("---------------------------------------------\n" 
- + "Mouse clicks to move and orbit \n" 
- + "R to activate rotation slider\n" 
- + "Space to change the background \n"
+ + "Mouse clicks to move and orbit.\n" 
+ + "R to activate rotation slider.\n" 
+ + "C to clone an object. \n"
  + "---------------------------------------------\n" );
 }
 
@@ -389,7 +389,7 @@ function keyPressed(e){
         transformCtrls.setMode('rotate');//set it to only rotate
         break;
 
-        case 'v':
+        case 'c':
         var newObject = dragObject.clone();
         newObject.position.x = dragObject.position.x + 10;
         newObject.position.y = dragObject.position.y;
