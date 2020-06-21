@@ -111,7 +111,8 @@ scene.add( light ); // add enviroment light -- Christian
  // GUI
  setupGui();
 
-
+ //add furniture
+ addFurnitures();
 }
 
 
@@ -291,7 +292,7 @@ mtlLoader.load('models/chair2.mtl', function(materials) {
 
 }
 
-addFurnitures();
+
 
 function setupGui() {
             
