@@ -471,6 +471,13 @@ document.addEventListener("mousemove", event => {
     if (isDragging) {
     	raycaster.ray.intersectPlane(plane, planeIntersect);
       dragObject.position.addVectors(planeIntersect, shift);   
+
+      if (dragObject.name =="")
+      {
+        pointLight.position.x = dragObject.position.x;
+        pointLight.position.y = dragObject.position.y;
+        pointLight.position.z = dragObject.position.z;
+      }
     }
 });
 
