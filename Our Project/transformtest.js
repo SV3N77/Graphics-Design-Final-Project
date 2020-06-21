@@ -190,7 +190,7 @@ function addFurnitures() {
       object.position.z = 0;
       object.scale.set(3,3,3)
       scene.add(object);
-      furniture.push(object);
+     
 
     });
   
