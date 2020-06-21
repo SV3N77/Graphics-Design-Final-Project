@@ -21,9 +21,12 @@ var pIntersect = new THREE.Vector3(); // point of intersection with an object (p
 var shift = new THREE.Vector3(); // distance between position of an object and points of intersection with the object
 var isDragging = false;
 var dragObject;
+var loadingManager;
 var pointLight;
-var loadingManager = null;
-
+var isMovableLight = false;
+var isNight = true;
+var light;
+var directionalLight;
 init();
 
 
@@ -108,6 +111,32 @@ scene.add( light ); // add enviroment light -- Christian
  brick1Material = new THREE.MeshBasicMaterial( { map: brick1Map, side: THREE.DoubleSide } );
  brick2Material = new THREE.MeshBasicMaterial( { map: brick2Map, side: THREE.DoubleSide } );
  
+
+ //christians light cube
+//random coloured cubes
+var geometry = new THREE.BoxGeometry (1,1,1);
+for (var i = 0; i <1; i++) {
+var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff}));
+
+var randomX = Math.random() * 8-4; 
+var randomY = Math.random() * 0-0;
+var randomZ = Math.random() * 8-4;
+
+object.position.x = randomX;
+object.position.y = randomY;
+object.position.z = randomZ;
+ // Random light with object --Christian
+pointLight = new THREE.PointLight( 0xffffff, 1, 100 );
+pointLight.position.set( randomX, randomY, randomZ ); 
+scene.add( pointLight );
+
+object.castShadow=true;
+object.receiveShadow=true;
+
+scene.add(object);//add cubes to scene
+furniture.push(object);//add cubes to furniture array
+
+}
  // GUI
  setupGui();
 
@@ -127,14 +156,50 @@ scene.add( light ); // add enviroment light -- Christian
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
+ 
+
+  mtlLoader.load('models/table1.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/table1.obj', function(object) {
+      
+      object.position.x = Math.random() * 8-4;
+      object.position.y = -1;
+      object.position.z = Math.random() * 8-4;
+      object.scale.set(0.8,0.8,0.8)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+    
   
-  loadingManager = new THREE.LoadingManager();
+  });
+
+  mtlLoader.load('models/bed2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/bed2.obj', function(object) {
+      
+      object.position.x = Math.random() * 8-4;
+      object.position.y = Math.random() * 0-0;
+      object.position.z = Math.random() * 8-4;
+      object.scale.set(1,1,1)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+    
+  
+  });
+
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
     objLoader.setMaterials(materials);
     objLoader.load('models/house_empty.obj', function(object) {
-     
+      
       object.position.x = 100;
       object.position.y = -0.5;
       object.position.z = -20;
@@ -146,6 +211,31 @@ function addFurnitures() {
   
   });
 
+  
+
+
+  /*mtlLoader.load('models/house2.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/house2.obj', function(object) {
+      
+      object.position.x = 5;
+      object.position.y = -0.5;
+      object.position.z = 5;
+
+      object.rotation.y = 1.55
+      object.scale.set(0.1,0.1,0.1)
+
+      var pointLight = new THREE.PointLight( 0xffffff, 1, 10 );
+      pointLight.position.set( 11.5, 2, 2.8 ); 
+      scene.add(pointLight);
+      scene.add(object);
+
+
+    });
+  
+  });*/
 
   mtlLoader.load('models/cybertruck.mtl', function(materials) {
     materials.preload();
@@ -200,8 +290,7 @@ function addFurnitures() {
       object.position.x = Math.random() * 8-4;
       object.position.y = Math.random() * 0-0;
       object.position.z = Math.random() * 8-4;
-      // object.castShadow = true;
-      // object.receiveShadow = true;
+
       //object.rotation.x = 1.55
       //object.rotation.y = 3.15
       object.scale.set(1,1,1)
@@ -215,7 +304,7 @@ function addFurnitures() {
 
 
   var textureloader = new THREE.TextureLoader();
-  textureloader.load('models/grass_texture/grass.jpg',function(){
+  textureloader.load('models/grass_texture/grass.jpg',function(tx){
   mtlLoader.load('models/grass.mtl', function(materials) {
     materials.preload();
     var objLoader = new OBJLoader();
@@ -223,7 +312,7 @@ function addFurnitures() {
     objLoader.load('models/grass.obj', function(object) {
       
       object.position.x = 11.5;
-      object.position.y = -6.5;
+      object.position.y = -7;
       object.position.z = 2.8;
 
       object.rotation.x = 1.55
@@ -233,13 +322,34 @@ function addFurnitures() {
    
 
     });
-  
   });
 });
 
+var textureloader = new THREE.TextureLoader();
+textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
+mtlLoader.load('models/bed2.mtl', function(materials) {
+  materials.preload();
+  var objLoader = new OBJLoader();
+  objLoader.setMaterials(materials);
+  objLoader.load('models/bed2.obj', function(object) {
+    
+    object.position.x = 11.5;
+    object.position.y = -6;
+    object.position.z = 2.8;
+
+    object.rotation.x = 1.55
+    object.rotation.y = 3.15
+    object.scale.set(1,1,1)
+    scene.add(object);
+ 
+
+  });
+});
+});
 
 var textureloader = new THREE.TextureLoader();
-textureloader.load('models/study_chair_cm.jpg',function(){
+textureloader.load('models/study_chair_cm.jpg',function(tx){
+
 mtlLoader.load('models/chair1.mtl', function(materials) {
   materials.preload();
   var objLoader = new OBJLoader();
@@ -256,25 +366,34 @@ mtlLoader.load('models/chair1.mtl', function(materials) {
   });
 });
 });
- 
-var textureloader = new THREE.TextureLoader();
-textureloader.load('models/wood.jpg',function(){
-mtlLoader.load('models/chair2.mtl', function(materials) {
-  materials.preload();
-  var objLoader = new OBJLoader();
-  objLoader.setMaterials(materials);
-  objLoader.load('models/chair2.obj', function(object) {
-    
-    object.position.x = 20;
-    object.position.y -= 1;
-    object.position.z = 10;
-    object.scale.set(0.1,0.1,0.1)
-    scene.add(object);
-    furniture.push(object);
+  
+/*var textureloader = new THREE.TextureLoader();
+  textureloader.load('models/lamp_street_texture/lamp_street_old.png',function(tx){
+  mtlLoader.load('models/lamp_street.mtl', function(materials) {
+    materials.preload();
+    var objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load('models/lamp_street.obj', function(object) {
+      
+      object.position.x = 11.5;
+      object.position.y = 5;
+      object.position.z = 2.8;
 
+      object.rotation.x = 1.55
+      object.rotation.y = 3.15
+      object.scale.set(10,10,10)
+      scene.add(object);
+      furniture.push(object);
+
+    });
+  
   });
-});
-});
+});*/
+
+
+
+
+
 
 }
 
@@ -385,11 +504,12 @@ function keyPressed(e){
    
         case 'r': //R to enable rotation
         controls.enabled = false; //disable orbit
+        transformCtrls.enabled = true; //enable transform
         scene.add(transformCtrls);//add transform gizmo to scene
         transformCtrls.setMode('rotate');//set it to only rotate
         break;
 
-        case 'v':
+        case 'c':
         var newObject = dragObject.clone();
         newObject.position.x = dragObject.position.x + 10;
         newObject.position.y = dragObject.position.y;
@@ -399,7 +519,40 @@ function keyPressed(e){
         scene.add(newObject);
         furniture.push(newObject);
         break;
-        
+
+        case ' ':
+          if (isNight == true){
+          scene.background = new THREE.CubeTextureLoader() // switch to noon
+          .load( [
+            './bg/noon/px.jpg',
+            './bg/noon/nx.jpg',
+            './bg/noon/py.jpg',
+            './bg/noon/ny.jpg',
+            './bg/noon/pz.jpg',
+            './bg/noon/nz.jpg'
+          ] );
+
+          isNight = false;
+          light.visible = true;
+          directionalLight.visible = false;
+        }
+          else{
+            scene.background = new THREE.CubeTextureLoader() // switch to night
+          .load( [
+            './bg/night/px.jpg',
+            './bg/night/nx.jpg',
+            './bg/night/py.jpg',
+            './bg/night/ny.jpg',
+            './bg/night/pz.jpg',
+            './bg/night/nz.jpg'
+          ] );
+          isNight = true;
+          light.visible = false;
+          directionalLight.visible = true;
+          
+          }
+       
+        break;
   }
 }
 
