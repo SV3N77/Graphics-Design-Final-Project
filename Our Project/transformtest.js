@@ -197,9 +197,9 @@ function addFurnitures() {
     objLoader.setMaterials(materials);
     objLoader.load('models/table.obj', function(object) {
       
-      object.position.x = Math.random() * 8-4;
-      object.position.y = Math.random() * 0-0;
-      object.position.z = Math.random() * 8-4;
+      object.position.x = -16;
+      object.position.y = 0.1;
+      object.position.z = -13;
       // object.castShadow = true;
       // object.receiveShadow = true;
       //object.rotation.x = 1.55
@@ -265,9 +265,9 @@ mtlLoader.load('models/chair2.mtl', function(materials) {
   objLoader.setMaterials(materials);
   objLoader.load('models/chair2.obj', function(object) {
     
-    object.position.x = 20;
-    object.position.y -= 1;
-    object.position.z = 10;
+    object.position.x = -16;
+    object.position.y = -1;
+    object.position.z = -20;
     object.scale.set(0.1,0.1,0.1)
     scene.add(object);
     furniture.push(object);
