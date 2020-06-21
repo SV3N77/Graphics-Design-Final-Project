@@ -120,6 +120,7 @@ scene.add( light ); // add enviroment light -- Christian
 function addFurnitures() {
 
   var mtlLoader = new MTLLoader();
+  
   loadingManager = new THREE.LoadingManager();
   mtlLoader.load('models/house_empty.mtl', function(materials) {
     materials.preload();
