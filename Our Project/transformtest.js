@@ -65,7 +65,7 @@ light.position.set( 0, 5, 100 );
 scene.add( light );*/
 
 //setting up the test scene
-scene.add(new THREE.GridHelper(100, 100));//wire grid
+//scene.add(new THREE.GridHelper(100, 100));//wire grid
 //random coloured cubes
 var geometry = new THREE.BoxGeometry (1,1,1);
 for (var i = 0; i <1; i++) {
