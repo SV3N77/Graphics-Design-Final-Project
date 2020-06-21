@@ -229,7 +229,6 @@ function addFurnitures() {
 textureloader.load('models/bed2_texture/bed2_white.jpg',function(tx){
 mtlLoader.load('models/bed2.mtl', function(materials) {
   materials.preload();
-  var objLoader = new OBJLoader();
   objLoader.setMaterials(materials);
   objLoader.load('models/bed2.obj', function(object) {
     
